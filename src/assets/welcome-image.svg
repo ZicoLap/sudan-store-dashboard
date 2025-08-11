@@ -1,0 +1,21 @@
+<!-- src/assets/welcome-image.svg -->
+<svg width="320" height="220" viewBox="0 0 320 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background rounded rectangle -->
+  <rect width="320" height="220" rx="20" fill="#FF6F00" />
+  
+  <!-- Lighter orange decorative circles -->
+  <circle cx="60" cy="60" r="25" fill="#FFA040" />
+  <circle cx="260" cy="80" r="15" fill="#FFA040" />
+  <circle cx="180" cy="170" r="35" fill="#FFA040" />
+
+  <!-- Modern styled welcome text -->
+  <text x="50%" y="45%" fill="white" font-family="'Segoe UI', Tahoma, Geneva, Verdana, sans-serif" font-weight="700" font-size="20" letter-spacing="3" text-transform="uppercase" dominant-baseline="middle" text-anchor="middle" style="text-shadow: 0 1px 1px rgba(0,0,0,0.2);">
+    WELCOME TO
+  </text>
+  <text x="50%" y="65%" fill="white" font-family="'Segoe UI', Tahoma, Geneva, Verdana, sans-serif" font-weight="900" font-size="32" letter-spacing="2" dominant-baseline="middle" text-anchor="middle" style="text-shadow: 0 2px 4px rgba(0,0,0,0.3);">
+    SUDAN GOODS
+  </text>
+  <text x="50%" y="85%" fill="white" font-family="'Segoe UI', Tahoma, Geneva, Verdana, sans-serif" font-weight="500" font-size="14" letter-spacing="1" dominant-baseline="middle" text-anchor="middle" style="opacity: 0.85;">
+    Store Owner Dashboard
+  </text>
+</svg>
