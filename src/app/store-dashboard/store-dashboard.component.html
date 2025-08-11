@@ -1,0 +1,9 @@
+
+
+<h1>{{ store?.name }}</h1>
+<p *ngIf="store?.description">{{ store?.description }}</p>
+
+
+<p *ngIf="loading">Loading...</p>
+<p *ngIf="notFound">Store not found</p>
+

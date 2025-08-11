@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { Auth, onAuthStateChanged, signInWithEmailAndPassword, signOut, authState } from '@angular/fire/auth';
+import { Auth, onAuthStateChanged, signInWithEmailAndPassword, signOut, authState, setPersistence, browserSessionPersistence } from '@angular/fire/auth';
 import { from, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -21,7 +21,9 @@ export class AuthService implements OnDestroy {
 
   /** Return Observable instead of Promise */
   login(email: string, password: string): Observable<any> {
-    return from(signInWithEmailAndPassword(this.auth, email, password));
+    return from(  setPersistence(this.auth, browserSessionPersistence).then(() =>
+        signInWithEmailAndPassword(this.auth, email, password)
+      ));
   }
 
   /** Return Observable instead of Promise */

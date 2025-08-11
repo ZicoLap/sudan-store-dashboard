@@ -1,46 +1,43 @@
-import { Component, DestroyRef, inject, input, signal } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, DestroyRef, inject } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
-import { collection, collectionData, Firestore } from '@angular/fire/firestore';
+import { Router } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-login',
-  imports: [FormsModule],
+  standalone: true,
+  imports: [ReactiveFormsModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
 
-  email = signal<string>('');
-  password = signal<string>('');
-  products$: any;
   private destroyRef = inject(DestroyRef);
 
-  constructor(private authService: AuthService, firestore: Firestore) {
-     const productsRef = collection(firestore, 'products');
-    this.products$ = collectionData(productsRef, { idField: 'id' });
-    
-    this.products$.subscribe((data: any) => {
-      console.log('Firestore products:', data);
-    });
-  }
+  form = new FormGroup({
+    email: new FormControl('', { validators: [Validators.required, Validators.email] }),
+    password: new FormControl('', { validators: [Validators.required, Validators.minLength(6)] })
+  });
 
-  ngOnInit() {
- 
-  }
+  constructor(private authService: AuthService, private router: Router) {}
 
   onSubmit() {
-    // Handle login logic here
-   const loginSubscription = this.authService.login(this.email(), this.password()).subscribe({
-      next: (userCredential) => console.log('Login successful', userCredential),
-      error: (err) => console.error('Login failed', err)
-    });
+    if (this.form.valid) {
+      const email = this.form.get('email')?.value ?? '';
+      const password = this.form.get('password')?.value ?? '';
 
-    this.destroyRef.onDestroy(() => {
-      loginSubscription.unsubscribe();
-      console.log('Component destroyed');
-      this.products$.unsubscribe();
-
-    });
+      if (email && password) {
+        this.authService.login(email, password)
+          .pipe(takeUntilDestroyed(this.destroyRef))
+          .subscribe({
+            next: () => {
+              console.log('Login successful');
+              this.router.navigate(['/select-store']);
+            },
+            error: (err) => console.error('Login failed', err)
+          });
+      }
+    }
   }
 }
