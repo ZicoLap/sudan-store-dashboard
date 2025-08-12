@@ -39,7 +39,7 @@ export class SidebarComponent {
       id: 'dashboard',
       label: 'Dashboard',
       icon: 'dashboard',
-      route: 'dashboard'
+      route: 'overview'
     },
     {
       id: 'products',
@@ -105,18 +105,55 @@ export class SidebarComponent {
   }
 
   // Handle menu item click
-  onMenuItemClick(menuItem: MenuItem) {
+  onMenuItemClick(menuItem: MenuItem, event?: Event) {
+    console.log('onMenuItemClick called with:', { menuItem, event });
+    
+    // Prevent default behavior and stop propagation
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
     if (menuItem.disabled) {
+      console.log('Menu item is disabled, not navigating');
       return;
     }
 
+    if (!this.storeId) {
+      console.error('No storeId available for navigation');
+      return;
+    }
+
+    console.log('Setting active route to:', menuItem.id);
     this.activeRoute = menuItem.id;
     this.menuItemClick.emit(menuItem.id);
 
-    // Navigate to route
-    if (this.storeId) {
-      this.router.navigate(['/store', this.storeId, menuItem.route]);
-    }
+    // Get the current route segments
+    const currentUrl = this.router.url;
+    console.log('Current URL:', currentUrl);
+    
+    // Navigate to the correct route
+    const targetRoute = ['/store', this.storeId, menuItem.route];
+    console.log('Navigating to:', targetRoute);
+    
+    this.router.navigate(targetRoute, { 
+      skipLocationChange: false 
+    })
+    .then(success => {
+      console.log('Navigation successful:', success);
+    })
+    .catch(error => {
+      console.error('Navigation error:', error);
+    });
+  }
+
+  // Close sidebar when clicking on the overlay
+  closeSidebar(event: Event) {
+    event.preventDefault();
+    event.stopPropagation();
+    
+    // Emit an event to the parent component to toggle the sidebar
+    this.menuItemClick.emit('toggle');
   }
 
   // Get user display name

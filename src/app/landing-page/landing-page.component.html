@@ -1,30 +1,24 @@
-<!-- dashboard-landing.component.html -->
+<!-- landing-page.component.html -->
 <div class="landing-container">
+  <div class="background-image"></div>
+  <div class="overlay"></div>
+
   <header class="header">
-    <h1 class="logo">Sudan Goods</h1>
+    <div class="logo-container">
+      <svg class="logo-icon" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M21.41 11.58l-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58.55 0 1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41s-.22-1.05-.59-1.42zM13 20.99l-9-9V4h7v-.01l9 9-7 7.01z"/><circle cx="6.5" cy="6.5" r="1.5"/></svg>
+      <h1 class="logo-text">Sudan Goods</h1>
+    </div>
   </header>
 
   <main class="main-content">
-    <section class="hero-section">
-      <div class="hero-image">
-        <img src="marketplace-hero.png" alt="Sudan Marketplace">
+    <div class="content-wrapper">
+      <div class="welcome-text">
+        <h1>Welcome to the Sudan Goods Dashboard</h1>
+        <p>The central hub for our sellers. Manage your products, track orders, and connect with customers, all in one place.</p>
       </div>
-      <div class="hero-content">
+      <div class="login-container">
         <app-login></app-login>
       </div>
-    </section>
-
-    <section class="welcome-section">
-      <h1>Welcome to <br>the Sudan Goods <br>Dashboard</h1>
-      <div class="divider"></div>
-    </section>
-
-    <section class="about-section">
-      <h2>About Us</h2>
-      <p>
-        We are Sudan Goods - a platform connecting Sudanese sellers with buyers worldwide. 
-        Our mission is to help local sellers reach more customers and grow their businesses.
-      </p>
-    </section>
+    </div>
   </main>
 </div>

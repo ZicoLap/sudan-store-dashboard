@@ -1,14 +1,14 @@
 /* src/app/shared/footer/footer.component.css */
 
 .footer {
-  background: #ffffff;
-  border-top: 1px solid #e2e8f0;
+  background: #34495e; /* Dark background */
+  border-top: 1px solid #46627f; /* Darker border */
   padding: 1.5rem 2rem;
   margin-left: 280px; /* Space for sidebar */
   transition: margin-left 0.3s ease;
   z-index: 10;
   position: relative;
-  box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.4);
 }
 
 .footer.sidebar-collapsed {
@@ -40,13 +40,13 @@
 .brand-name {
   font-size: 1.1rem;
   font-weight: 700;
-  color: #2c3e50;
+  color: #ecf0f1; /* Light text */
   letter-spacing: 0.5px;
 }
 
 .brand-tagline {
   font-size: 0.8rem;
-  color: #718096;
+  color: #bdc3c7; /* Lighter text */
   font-weight: 500;
 }
 
@@ -55,17 +55,17 @@
   align-items: center;
   gap: 1rem;
   font-size: 0.85rem;
-  color: #a0aec0;
+  color: #bdc3c7; /* Lighter text */
 }
 
 .version {
-  background: #f7fafc;
-  color: #4a5568;
+  background: #2c3e50; /* Dark background */
+  color: #ecf0f1; /* Light text */
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
   font-size: 0.75rem;
   font-weight: 500;
-  border: 1px solid #e2e8f0;
+  border: 1px solid #46627f; /* Darker border */
 }
 
 /* Right Side */
@@ -84,7 +84,7 @@
 .footer-link {
   background: none;
   border: none;
-  color: #718096;
+  color: #bdc3c7; /* Lighter text */
   font-size: 0.85rem;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -105,7 +105,7 @@
 }
 
 .footer-link.disabled:hover {
-  color: #a0aec0;
+  color: #bdc3c7;
 }
 
 .footer-social {
@@ -116,7 +116,7 @@
 
 .social-text {
   font-size: 0.8rem;
-  color: #718096;
+  color: #bdc3c7; /* Lighter text */
   font-weight: 500;
 }
 
@@ -137,12 +137,12 @@
 
 .mobile-copyright {
   font-size: 0.8rem;
-  color: #718096;
+  color: #bdc3c7; /* Lighter text */
 }
 
 .mobile-tagline {
   font-size: 0.75rem;
-  color: #a0aec0;
+  color: #bdc3c7; /* Lighter text */
   font-weight: 500;
 }
 
@@ -187,37 +187,6 @@
   }
 }
 
-/* Dark mode support (for future) */
-@media (prefers-color-scheme: dark) {
-  .footer {
-    background: #1a202c;
-    border-top-color: #2d3748;
-  }
-  
-  .brand-name {
-    color: #f7fafc;
-  }
-  
-  .brand-tagline,
-  .footer-copyright {
-    color: #a0aec0;
-  }
-  
-  .version {
-    background: #2d3748;
-    color: #e2e8f0;
-    border-color: #4a5568;
-  }
-  
-  .footer-link {
-    color: #a0aec0;
-  }
-  
-  .footer-link:hover:not(.disabled) {
-    color: #ff7f50;
-  }
-}
-
 /* Hover animations */
 .footer-brand {
   transition: transform 0.2s ease;
@@ -232,7 +201,7 @@
 }
 
 .version:hover {
-  background: #edf2f7;
+  background: #46627f; /* Darker hover */
   transform: scale(1.05);
 }
 

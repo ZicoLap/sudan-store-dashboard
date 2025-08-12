@@ -6,8 +6,8 @@
 
 body {
     font-family: 'Inter', system-ui, sans-serif;
-    background-color: #f8fafc;
-    color: #1a202c;
+    background-color: #2c3e50; /* Dark background */
+    color: #ecf0f1; /* Light text */
     line-height: 1.6;
 }
 
@@ -24,12 +24,12 @@ body {
 .dashboard-title {
     font-size: 2rem;
     font-weight: 700;
-    color: #2d3748;
+    color: #ecf0f1; /* Light text */
     margin-bottom: 0.5rem;
 }
 
 .dashboard-subtitle {
-    color: #718096;
+    color: #bdc3c7; /* Lighter text */
     font-size: 1rem;
 }
 
@@ -42,17 +42,17 @@ body {
 }
 
 .stat-card {
-    background: white;
+    background: #34495e; /* Dark card background */
     border-radius: 12px;
     padding: 1.5rem;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    border: 1px solid #e2e8f0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    border: 1px solid #46627f; /* Darker border */
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .stat-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
 .stat-card-header {
@@ -111,12 +111,12 @@ body {
 .stat-value {
     font-size: 2rem;
     font-weight: 700;
-    color: #2d3748;
+    color: #ecf0f1; /* Light text */
     margin-bottom: 0.25rem;
 }
 
 .stat-label {
-    color: #718096;
+    color: #bdc3c7; /* Lighter text */
     font-size: 0.875rem;
     font-weight: 500;
 }
@@ -130,27 +130,27 @@ body {
 }
 
 .dashboard-card {
-    background: white;
+    background: #34495e; /* Dark card background */
     border-radius: 12px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    border: 1px solid #e2e8f0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    border: 1px solid #46627f; /* Darker border */
 }
 
 .card-header {
     padding: 1.5rem 1.5rem 0;
-    border-bottom: 1px solid #e2e8f0;
+    border-bottom: 1px solid #46627f; /* Darker border */
     margin-bottom: 1.5rem;
 }
 
 .card-title {
     font-size: 1.25rem;
     font-weight: 600;
-    color: #2d3748;
+    color: #ecf0f1; /* Light text */
     margin-bottom: 0.25rem;
 }
 
 .card-subtitle {
-    color: #718096;
+    color: #bdc3c7; /* Lighter text */
     font-size: 0.875rem;
 }
 
@@ -181,13 +181,13 @@ body {
     text-align: left;
     padding: 0.75rem;
     font-weight: 600;
-    color: #4a5568;
-    border-bottom: 1px solid #e2e8f0;
+    color: #bdc3c7; /* Lighter text */
+    border-bottom: 1px solid #46627f; /* Darker border */
 }
 
 .orders-table td {
     padding: 0.75rem;
-    border-bottom: 1px solid #f7fafc;
+    border-bottom: 1px solid #46627f; /* Darker border */
 }
 
 .order-status {
@@ -198,18 +198,18 @@ body {
 }
 
 .status-pending {
-    background: #fed7d7;
-    color: #c53030;
+    background: #e74c3c;
+    color: white;
 }
 
 .status-confirmed {
-    background: #c6f6d5;
-    color: #2f855a;
+    background: #2ecc71;
+    color: white;
 }
 
 .status-delivered {
-    background: #bee3f8;
-    color: #3182ce;
+    background: #3498db;
+    color: white;
 }
 
 /* Quick Actions & Alerts */
@@ -224,36 +224,36 @@ body {
     align-items: center;
     gap: 0.75rem;
     padding: 1rem;
-    background: #f7fafc;
-    border: 1px solid #e2e8f0;
+    background: #2c3e50; /* Dark background */
+    border: 1px solid #46627f; /* Darker border */
     border-radius: 8px;
     text-decoration: none;
-    color: #4a5568;
+    color: #ecf0f1; /* Light text */
     transition: all 0.2s ease;
     cursor: pointer;
 }
 
 .action-button:hover {
-    background: #edf2f7;
-    color: #2d3748;
+    background: #46627f; /* Darker hover */
+    color: white;
 }
 
 .alert-item {
     padding: 1rem;
-    background: #fef5e7;
-    border: 1px solid #f6ad55;
+    background: #e67e22;
+    border: 1px solid #d35400;
     border-radius: 8px;
     margin-bottom: 0.75rem;
 }
 
 .alert-title {
     font-weight: 600;
-    color: #c05621;
+    color: white;
     margin-bottom: 0.25rem;
 }
 
 .alert-message {
-    color: #744210;
+    color: #ecf0f1; /* Light text */
     font-size: 0.875rem;
 }
 
@@ -275,14 +275,14 @@ body {
     align-items: center;
     gap: 1rem;
     padding: 1rem;
-    background: #f7fafc;
+    background: #2c3e50; /* Dark background */
     border-radius: 8px;
 }
 
 .product-image {
     width: 60px;
     height: 60px;
-    background: #e2e8f0;
+    background: #46627f; /* Darker background */
     border-radius: 8px;
     display: flex;
     align-items: center;
@@ -296,12 +296,12 @@ body {
 
 .product-name {
     font-weight: 600;
-    color: #2d3748;
+    color: #ecf0f1; /* Light text */
     margin-bottom: 0.25rem;
 }
 
 .product-sales {
-    color: #718096;
+    color: #bdc3c7; /* Lighter text */
     font-size: 0.875rem;
 }
 

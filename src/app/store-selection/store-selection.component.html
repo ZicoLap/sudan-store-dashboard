@@ -1,37 +1,38 @@
-<!-- app.component.html -->
-<header class="header-bar" role="banner">
-  <div class="logo-circle"></div>
-  <h1>Sudan Goods Store Dashboard</h1>
-  <div class="header-controls">
-    <select aria-label="Select language" class="language-select" [(ngModel)]="selectedLanguage">
-      <option value="en">English</option>
-      <option value="ar">Arabic</option>
-    </select>
-    <button type="button" class="contact-btn" (click)="onContact()">Contact</button>
-  </div>
-</header>
-
-<main class="store-grid" role="main">
-  <article *ngFor="let store of stores()" class="store-card" tabindex="0" 
-           (click)="goToStoreDashboard(store.id)" (keyup.enter)="goToStoreDashboard(store.id)">
-    <div class="store-image">
-      <img [src]="store.coverImageUrl" [alt]="store.name + ' cover image'" loading="lazy" />
+<div class="store-selection-container">
+  <header class="header-bar" role="banner">
+    <h1 class="main-logo">Sudan Goods</h1>
+    <div class="header-controls">
+      <button type="button" class="contact-btn" (click)="onContact()">Contact Support</button>
+      <button type="button" class="logout-btn" (click)="logout()">Logout</button>
     </div>
-    <div class="store-info">
-      <div class="store-logo-circle">
-        <img [src]="store.logoUrl" [alt]="store.name + ' logo'" loading="lazy" />
-      </div>
-      <div class="store-details">
-        <h2>{{ store.name }}</h2>
-       
-      </div>
-      <div class="store-location">
-        <p>{{ store.address.city }}, {{ store.address.country }}</p>
-      </div>
-    </div>
-  </article>
-</main>
+  </header>
 
-<footer class="footer-bar" role="contentinfo">
-  © 2025 Sudan Goods Store
-</footer>
+  <main class="page-content" role="main">
+    <div class="page-header">
+      <h2>Select a Store</h2>
+      <p>Choose a store to manage its dashboard.</p>
+    </div>
+
+    <div class="store-grid">
+      <article *ngFor="let store of stores()" class="store-card" tabindex="0"
+               (click)="goToStoreDashboard(store.id)" (keyup.enter)="goToStoreDashboard(store.id)">
+        <div class="store-card-image">
+          <img [src]="store.coverImageUrl" [alt]="store.name + ' cover image'" loading="lazy" />
+        </div>
+        <div class="store-card-content">
+          <div class="store-logo">
+            <img [src]="store.logoUrl" [alt]="store.name + ' logo'" loading="lazy" />
+          </div>
+          <div class="store-details">
+            <h3>{{ store.name }}</h3>
+            <p class="store-location">{{ store.address.city }}, {{ store.address.country }}</p>
+          </div>
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <footer class="footer-bar" role="contentinfo">
+    <p> 2025 Sudan Goods. All Rights Reserved.</p>
+  </footer>
+</div>

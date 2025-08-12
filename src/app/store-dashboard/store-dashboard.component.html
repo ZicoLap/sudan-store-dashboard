@@ -7,7 +7,7 @@
   <button (click)="goBack()">Go Back</button>
 </div>
 
-<div *ngIf="store && !loading && !notFound" class="dashboard-container">
+<div *ngIf="store && !loading && !notFound" class="dashboard-container" (click)="$event.stopPropagation()">
   <app-header 
     [storeName]="store.name"
     (toggleSidebar)="toggleSidebar()">
@@ -27,7 +27,7 @@
     <!-- <div style="height: 200px; background: white; border-radius: 8px; padding: 2rem; margin-bottom: 2rem;">
       <p>Content area - the footer should stay at bottom even with little content</p>
     </div> -->
-    <app-dashboard-overview></app-dashboard-overview>
+    <router-outlet></router-outlet>
   </div>
 
   <app-footer [sidebarCollapsed]="sidebarCollapsed"></app-footer>

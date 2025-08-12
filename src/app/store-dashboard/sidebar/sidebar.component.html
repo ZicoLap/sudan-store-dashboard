@@ -30,10 +30,11 @@
           
           <button 
             class="nav-button"
-            (click)="onMenuItemClick(item)"
+            (click)="$event.stopPropagation(); onMenuItemClick(item, $event)"
             [disabled]="item.disabled"
             [title]="isCollapsed ? item.label : ''"
-            [attr.aria-label]="item.label">
+            [attr.aria-label]="item.label"
+            type="button">
             
             <span class="nav-icon material-icons">{{ item.icon }}</span>
             <span class="nav-label" *ngIf="!isCollapsed">{{ item.label }}</span>
@@ -65,6 +66,6 @@
 <div 
   class="sidebar-overlay" 
   *ngIf="!isCollapsed" 
-  (click)="onMenuItemClick({id: 'close', label: '', icon: '', route: ''})"
+  (click)="closeSidebar($event)"
   [ngClass]="{'show': !isCollapsed}">
 </div>

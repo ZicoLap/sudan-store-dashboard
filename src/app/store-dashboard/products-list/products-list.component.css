@@ -1,0 +1,580 @@
+:host {
+  display: block;
+  padding: 2rem;
+  background-color: #2c3e50;
+  color: #ecf0f1;
+}
+
+.products-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.products-header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #ecf0f1;
+}
+
+/* Header and Add Button */
+.add-product-btn {
+  background-color: #ff7f50;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem 0.75rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: 42px; /* Match form field height */
+}
+
+.add-product-btn:hover {
+  background-color: #e67e22;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.button-icon {
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* Search and Filter Section */
+.search-filters {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+
+.search-field {
+  flex: 1;
+  min-width: 250px;
+}
+
+.category-field {
+  min-width: 200px;
+}
+
+.clear-filters-btn {
+  color: #95a5a6;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: color 0.2s ease;
+  margin-bottom: 0.25rem;
+}
+
+.clear-filters-btn:hover {
+  color: #ff7f50;
+}
+
+/* Style the search and filter inputs */
+::ng-deep .search-filters .mat-mdc-form-field-outline,
+::ng-deep .search-filters .mdc-notched-outline__leading,
+::ng-deep .search-filters .mdc-notched-outline__notch,
+::ng-deep .search-filters .mdc-notched-outline__trailing {
+  border-color: #46627f !important;
+  border-radius: 8px;
+}
+
+::ng-deep .search-filters .mdc-text-field--focused .mdc-notched-outline__leading,
+::ng-deep .search-filters .mdc-text-field--focused .mdc-notched-outline__notch,
+::ng-deep .search-filters .mdc-text-field--focused .mdc-notched-outline__trailing {
+  border-color: #ff7f50 !important;
+  border-width: 2px;
+}
+
+::ng-deep .search-filters .mat-mdc-form-field-label {
+  color: #bdc3c7 !important;
+  font-size: 0.9rem;
+}
+
+::ng-deep .search-filters .mat-mdc-select-arrow {
+  color: #bdc3c7 !important;
+}
+
+/* Style the clear filters button */
+.clear-filters-btn {
+  background-color: transparent;
+  border: 1px solid #46627f;
+  color: #95a5a6;
+  padding: 0 16px;
+  height: 54px; /* Match Material form field height */
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  margin: 0 0 1.25em 8px; /* Match Material form field bottom margin */
+  position: relative;
+  top: -2px; /* Fine-tune vertical alignment */
+}
+
+.clear-filters-btn:hover {
+  background-color: rgba(255, 127, 80, 0.1);
+  color: #ff7f50;
+  border-color: #ff7f50;
+}
+
+.clear-filters-btn mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+/* Style the search icon */
+::ng-deep .search-field .mat-icon {
+  color: #95a5a6;
+  transition: color 0.2s ease;
+}
+
+::ng-deep .search-field:focus-within .mat-icon {
+  color: #ff7f50;
+}
+
+/* Style the category dropdown */
+::ng-deep .category-field .mat-mdc-select-value {
+  color: #ecf0f1;
+}
+
+::ng-deep .category-field .mat-mdc-select-arrow-wrapper {
+  transform: translateY(0);
+}
+
+/* Add transition for smoother interactions */
+::ng-deep .mat-mdc-form-field {
+  transition: all 0.2s ease;
+}
+
+/* Style the input text color */
+::ng-deep .search-filters .mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-line-ripple::after {
+  border-bottom-color: #ff7f50;
+}
+
+::ng-deep .search-filters .mdc-text-field--filled .mdc-line-ripple::before {
+  border-bottom-color: #46627f;
+}
+
+/* Style the select panel */
+::ng-deep .mat-mdc-select-panel {
+  background-color: #2c3e50;
+  border: 1px solid #46627f;
+  border-radius: 8px;
+  margin-top: 4px;
+}
+
+::ng-deep .mdc-list-item__primary-text {
+  color: #ecf0f1 !important;
+}
+
+::ng-deep .mdc-list-item--selected .mdc-list-item__primary-text {
+  color: #ff7f50 !important;
+}
+
+/* Hover state for select options */
+::ng-deep .mdc-list-item--with-one-line:hover {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Style the focused state for form fields */
+::ng-deep .mdc-text-field--focused .mdc-floating-label {
+  color: #ff7f50 !important;
+}
+
+/* Add some spacing between form fields on smaller screens */
+@media (max-width: 768px) {
+  .search-filters {
+    gap: 1rem;
+  }
+  
+  .search-field,
+  .category-field {
+    width: 100%;
+  }
+  
+  .clear-filters-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+::ng-deep .search-filters .mat-mdc-select-value-text {
+  color: #ecf0f1 !important;
+}
+
+/* Table Styles */
+.table-container {
+  background-color: #2c3e50;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-top: 1.5rem;
+}
+
+.products-table {
+  width: 100%;
+  background: transparent;
+}
+
+/* Header row */
+::ng-deep .mat-mdc-header-row {
+  background-color: #1a252f !important;
+  border-bottom: 1px solid #46627f;
+}
+
+::ng-deep .mat-mdc-header-cell {
+  color: #ecf0f1 !important;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Table rows */
+::ng-deep .mat-mdc-row {
+  transition: background-color 0.2s ease;
+  border-bottom: 1px solid #3a4f66;
+}
+
+::ng-deep .mat-mdc-row:hover {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  cursor: pointer;
+}
+
+::ng-deep .mat-mdc-row.row-selected {
+  background-color: rgba(255, 127, 80, 0.15) !important;
+  border-left: 3px solid #ff7f50;
+}
+
+/* Table cells */
+::ng-deep .mat-mdc-cell {
+  color: #ecf0f1 !important;
+  border-bottom-color: #3a4f66 !important;
+  padding: 1rem 1.5rem !important;
+}
+
+/* Product info styles */
+.product-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.product-image {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid #3a4f66;
+}
+
+.product-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.product-name {
+  font-weight: 500;
+  color: #ecf0f1;
+  margin-bottom: 0.25rem;
+}
+
+.product-description {
+  font-size: 0.85rem;
+  color: #bdc3c7;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Stock status */
+.low-stock {
+  color: #f39c12;
+  font-weight: 500;
+}
+
+.out-of-stock {
+  color: #e74c3c;
+  font-weight: 500;
+}
+
+/* Action Buttons */
+.actions-container {
+  display: flex;
+  gap: 8px;
+}
+
+/* Modern button styles */
+.actions-container button {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  border: none;
+  cursor: pointer;
+  background: #2c3e50;
+  color: #ecf0f1;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  position: relative;
+}
+
+.actions-container button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.actions-container button:hover::before {
+  opacity: 1;
+}
+
+.actions-container button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.actions-container button:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Edit button */
+.actions-container button[color="primary"] {
+  background: #3498db;
+}
+
+.actions-container button[color="primary"]:hover {
+  background: #2980b9;
+  box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+}
+
+/* Delete button */
+.actions-container button[color="warn"] {
+  background: #e74c3c;
+}
+
+.actions-container button[color="warn"]:hover {
+  background: #c0392b;
+  box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+}
+
+/* Icons */
+.actions-container mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+/* Ripple effect */
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(0);
+  animation: ripple 0.6s linear;
+  pointer-events: none;
+}
+
+@keyframes ripple {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* No data message */
+.no-data {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1rem;
+  color: #bdc3c7;
+  text-align: center;
+}
+
+.no-data mat-icon {
+  font-size: 3rem;
+  width: 3rem;
+  height: 3rem;
+  margin-bottom: 1rem;
+  color: #7f8c8d;
+}
+
+/* Pagination styles */
+::ng-deep .mat-mdc-paginator {
+  background-color: #2c3e50 !important;
+  color: #ecf0f1 !important;
+  border-top: 1px solid #3a4f66;
+}
+
+::ng-deep .mat-mdc-paginator .mat-mdc-select-value,
+::ng-deep .mat-mdc-paginator .mat-mdc-select-arrow,
+::ng-deep .mat-mdc-paginator .mat-mdc-paginator-range-label {
+  color: #bdc3c7 !important;
+}
+
+::ng-deep .mat-mdc-paginator .mat-mdc-icon-button:disabled {
+  color: #7f8c8d !important;
+}
+
+::ng-deep .mat-mdc-paginator .mat-mdc-icon-button:not(:disabled) {
+  color: #ecf0f1 !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .search-filters {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .search-field,
+  .category-field {
+    width: 100%;
+  }
+  
+  .clear-filters-btn {
+    align-self: flex-start;
+  }
+  
+  /* Adjust table for mobile */
+  .table-container {
+    border-radius: 0;
+    margin: 0 -1rem;
+    width: calc(100% + 2rem);
+  }
+  
+  ::ng-deep .mat-mdc-cell {
+    padding: 0.75rem 0.5rem !important;
+  }
+  
+  .product-image {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .product-name {
+    font-size: 0.9rem;
+  }
+  
+  .product-description {
+    font-size: 0.8rem;
+    -webkit-line-clamp: 1;
+  }
+}
+
+.products-table-container {
+  background-color: #34495e;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  border: 1px solid #46627f;
+}
+
+.products-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.products-table th {
+  text-align: left;
+  padding: 1rem;
+  font-weight: 600;
+  color: #bdc3c7;
+  border-bottom: 2px solid #46627f;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+}
+
+.products-table td {
+  padding: 1rem;
+  border-bottom: 1px solid #46627f;
+}
+
+.products-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.product-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.product-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.product-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.product-name {
+  font-weight: 600;
+  color: #ecf0f1;
+}
+
+.product-description {
+  font-size: 0.875rem;
+  color: #bdc3c7;
+}
+
+.action-btn {
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+  margin-right: 0.5rem;
+}
+
+.edit-btn {
+  background-color: #3498db;
+  color: white;
+}
+
+.edit-btn:hover {
+  background-color: #2980b9;
+}
+
+.delete-btn {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.delete-btn:hover {
+  background-color: #c0392b;
+}

@@ -1,0 +1,111 @@
+<div class="products-container">
+  <header class="products-header">
+    <h1>All Products</h1>
+    <button class="add-product-btn" (click)="openAddProductDialog()">
+      <span class="button-icon">+</span> Add Product
+    </button>
+  </header>
+
+  <div class="search-filters">
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>Search Products</mat-label>
+      <input matInput [formControl]="searchControl" placeholder="Search by name or description">
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="category-field">
+      <mat-label>Category</mat-label>
+      <mat-select [formControl]="categoryControl">
+        <mat-option [value]="">All Categories</mat-option>
+        <mat-option *ngFor="let category of categories" [value]="category">
+          {{ category }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button mat-button (click)="clearFilters()" class="clear-filters-btn">
+      <mat-icon>clear_all</mat-icon>
+      Clear Filters
+    </button>
+  </div>
+
+  <div class="table-container">
+    <table mat-table [dataSource]="dataSource" matSort class="products-table">
+      <!-- Product Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Product</th>
+        <td mat-cell *matCellDef="let product">
+          <div class="product-info">
+            <img [src]="product.images[0]" [alt]="product.name" class="product-image">
+            <div class="product-details">
+              <span class="product-name">{{ product.name }}</span>
+              <span class="product-description">{{ product.description }}</span>
+            </div>
+          </div>
+        </td>
+      </ng-container>
+
+      <!-- Category Column -->
+      <ng-container matColumnDef="category">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Category</th>
+        <td mat-cell *matCellDef="let product">{{ product.category }}</td>
+      </ng-container>
+
+      <!-- Price Column -->
+      <ng-container matColumnDef="price">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Price</th>
+        <td mat-cell *matCellDef="let product">{{ product.price | currency }}</td>
+      </ng-container>
+
+      <!-- Stock Column -->
+      <ng-container matColumnDef="stock">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Stock</th>
+        <td mat-cell *matCellDef="let product">
+          <span [class.low-stock]="product.quantity <= 5" [class.out-of-stock]="product.quantity === 0">
+            {{ product.quantity }}
+          </span>
+        </td>
+      </ng-container>
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let product">
+          <div class="actions-container">
+            <button mat-icon-button color="primary" (click)="openEditProductDialog(product)" matTooltip="Edit">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="deleteProduct(product.id)" matTooltip="Delete">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr 
+        mat-row 
+        *matRowDef="let row; columns: displayedColumns;"
+        [class.row-selected]="selectedRowIndex === row.id"
+        (click)="selectedRowIndex = row.id"
+      ></tr>
+    </table>
+
+    <!-- No data row -->
+    <div class="no-data" *ngIf="dataSource.data.length === 0">
+      <mat-icon>inventory</mat-icon>
+      <p>No products found</p>
+    </div>
+
+    <!-- Pagination -->
+    <mat-paginator 
+      [length]="totalItems"
+      [pageSize]="pageSize"
+      [pageSizeOptions]="pageSizeOptions"
+      (page)="onPageChange($event)"
+      showFirstLastButtons
+      aria-label="Select page of products">
+    </mat-paginator>
+  </div>
+</div>
+

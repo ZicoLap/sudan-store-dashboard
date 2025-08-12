@@ -9,9 +9,53 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  background-color: #2c3e50;
+  color: #ecf0f1;
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
 }
 
 main {
   flex: 1;
+}
+
+/* Global Dialog Styles */
+.custom-dialog-container .mat-mdc-dialog-container {
+  --mdc-dialog-container-color: #2c3e50;
+  --mdc-dialog-subhead-color: #ecf0f1;
+  --mdc-dialog-supporting-text-color: #bdc3c7;
+  border: 1px solid #46627f;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+/* Snackbar Styles */
+.success-snackbar {
+  background-color: #27ae60 !important;
+  color: white !important;
+}
+
+.error-snackbar {
+  background-color: #e74c3c !important;
+  color: white !important;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #34495e;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #7f8c8d;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #95a5a6;
 }
 

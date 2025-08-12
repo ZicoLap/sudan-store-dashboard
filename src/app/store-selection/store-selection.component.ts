@@ -4,6 +4,7 @@ import { Store } from '../store/store.model';
 import { NgForOf } from '@angular/common';
 import { FormsModule, NgModel } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-store-selection',
@@ -27,7 +28,7 @@ throw new Error('Method not implemented.');
 
   stores = signal<Store[] | null>(null);
 
-  constructor(private storeService: StoreService, private router: Router) {}
+  constructor(private storeService: StoreService, private router: Router, private authService: AuthService) {}
 
   ngOnInit() {
     this.storeService.getUserStores().subscribe({
@@ -43,4 +44,13 @@ throw new Error('Method not implemented.');
   goToStoreDashboard(storeId: string) {
   this.router.navigate(['/store', storeId]);
 }
+
+  logout() {
+    this.authService.logout().subscribe({
+      next: () => {
+        this.router.navigate(['/']);
+      },
+      error: (err) => console.error('Logout failed', err)
+    });
+  }
 }
