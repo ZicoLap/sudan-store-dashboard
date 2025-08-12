@@ -7,11 +7,12 @@ import { AuthService } from '../auth.service';
 import { HeaderComponent } from "./header/header.component";
 import { SidebarComponent } from "./sidebar/sidebar.component";
 import { FooterComponent } from "./footer/footer.component";
+import { DashboardOverviewComponent } from "./dashboard-overview/dashboard-overview.component";
 
 @Component({
   selector: 'app-store-dashboard',
   standalone: true,
-  imports: [NgIf, NgClass, HeaderComponent, SidebarComponent, FooterComponent],
+  imports: [NgIf, NgClass, HeaderComponent, SidebarComponent, FooterComponent, DashboardOverviewComponent],
   templateUrl: './store-dashboard.component.html',
   styleUrls: ['./store-dashboard.component.css']
 })

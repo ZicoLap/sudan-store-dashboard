@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sudan Goods Dashboard Overview</title>
+   
+</head>
+<body>
+    <div class="dashboard-overview">
+        <!-- Header -->
+        <div class="dashboard-header">
+            <h1 class="dashboard-title">Dashboard Overview</h1>
+            <p class="dashboard-subtitle">Welcome back! Here's what's happening with your store today.</p>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-card-header">
+                    <div class="stat-icon revenue">💰</div>
+                    <div class="stat-trend positive">
+                        ↗️ +12.5%
+                    </div>
+                </div>
+                <div class="stat-value">$2,847</div>
+                <div class="stat-label">Total Revenue This Month</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-card-header">
+                    <div class="stat-icon orders">📦</div>
+                    <div class="stat-trend positive">
+                        ↗️ +8.2%
+                    </div>
+                </div>
+                <div class="stat-value">127</div>
+                <div class="stat-label">Total Orders</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-card-header">
+                    <div class="stat-icon products">🛍️</div>
+                    <div class="stat-trend negative">
+                        ↘️ -2.4%
+                    </div>
+                </div>
+                <div class="stat-value">89</div>
+                <div class="stat-label">Total Products</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-card-header">
+                    <div class="stat-icon customers">👥</div>
+                    <div class="stat-trend positive">
+                        ↗️ +15.3%
+                    </div>
+                </div>
+                <div class="stat-value">456</div>
+                <div class="stat-label">Total Customers</div>
+            </div>
+        </div>
+
+        <!-- Main Dashboard Grid -->
+        <div class="dashboard-grid">
+            <!-- Sales Chart -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h3 class="card-title">Sales Overview</h3>
+                    <p class="card-subtitle">Last 30 days performance</p>
+                </div>
+                <div class="card-content">
+                    <div class="chart-container">
+                        📈 Sales Chart Will Be Here<br>
+                        <small>(Chart.js integration coming next)</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions & Alerts -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h3 class="card-title">Quick Actions</h3>
+                    <p class="card-subtitle">Common tasks</p>
+                </div>
+                <div class="card-content">
+                    <div class="quick-actions">
+                        <button class="action-button">
+                            ➕ Add New Product
+                        </button>
+                        <button class="action-button">
+                            📋 View All Orders
+                        </button>
+                        <button class="action-button">
+                            📊 Analytics Report
+                        </button>
+                    </div>
+
+                    <div style="margin-top: 2rem;">
+                        <h4 style="margin-bottom: 1rem; color: #2d3748;">Alerts & Notifications</h4>
+                        <div class="alert-item">
+                            <div class="alert-title">Low Stock Alert</div>
+                            <div class="alert-message">3 products are running low on inventory</div>
+                        </div>
+                        <div class="alert-item">
+                            <div class="alert-title">Pending Orders</div>
+                            <div class="alert-message">5 orders need your attention</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Orders -->
+        <div class="dashboard-card" style="margin-bottom: 2rem;">
+            <div class="card-header">
+                <h3 class="card-title">Recent Orders</h3>
+                <p class="card-subtitle">Latest customer orders</p>
+            </div>
+            <div class="card-content">
+                <table class="orders-table">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Customer</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#ORD-001</td>
+                            <td>Ahmed Hassan</td>
+                            <td>$89.50</td>
+                            <td><span class="order-status status-pending">Pending</span></td>
+                            <td>Jan 15, 2025</td>
+                        </tr>
+                        <tr>
+                            <td>#ORD-002</td>
+                            <td>Fatima Ali</td>
+                            <td>$156.00</td>
+                            <td><span class="order-status status-confirmed">Confirmed</span></td>
+                            <td>Jan 15, 2025</td>
+                        </tr>
+                        <tr>
+                            <td>#ORD-003</td>
+                            <td>Omar Ibrahim</td>
+                            <td>$73.25</td>
+                            <td><span class="order-status status-delivered">Delivered</span></td>
+                            <td>Jan 14, 2025</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Bottom Grid -->
+        <div class="bottom-grid">
+            <!-- Top Products -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h3 class="card-title">Top Products</h3>
+                    <p class="card-subtitle">Best performing items</p>
+                </div>
+                <div class="card-content">
+                    <div class="top-products-list">
+                        <div class="product-item">
+                            <div class="product-image">📱</div>
+                            <div class="product-info">
+                                <div class="product-name">Sudanese Dates</div>
+                                <div class="product-sales">45 sold this month</div>
+                            </div>
+                            <div class="product-revenue">$567</div>
+                        </div>
+                        
+                        <div class="product-item">
+                            <div class="product-image">🧥</div>
+                            <div class="product-info">
+                                <div class="product-name">Traditional Clothing</div>
+                                <div class="product-sales">32 sold this month</div>
+                            </div>
+                            <div class="product-revenue">$890</div>
+                        </div>
+
+                        <div class="product-item">
+                            <div class="product-image">☕</div>
+                            <div class="product-info">
+                                <div class="product-name">Sudanese Coffee</div>
+                                <div class="product-sales">28 sold this month</div>
+                            </div>
+                            <div class="product-revenue">$234</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Performance Metrics -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h3 class="card-title">Store Performance</h3>
+                    <p class="card-subtitle">Key metrics this month</p>
+                </div>
+                <div class="card-content">
+                    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span>Average Order Value</span>
+                            <span style="font-weight: 600; color: #38a169;">$67.50</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span>Conversion Rate</span>
+                            <span style="font-weight: 600; color: #38a169;">3.2%</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span>Customer Rating</span>
+                            <span style="font-weight: 600; color: #38a169;">4.8/5 ⭐</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span>Return Rate</span>
+                            <span style="font-weight: 600; color: #38a169;">2.1%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
