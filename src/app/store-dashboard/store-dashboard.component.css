@@ -1,0 +1,26 @@
+/* Dashboard Layout Fix */
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.dashboard-layout {
+  flex: 1; /* Nimmt den verfügbaren Platz ein */
+  margin-left: 280px;
+  padding: 2rem;
+  transition: margin-left 0.3s ease;
+  background: #f8fafc;
+}
+
+.dashboard-layout.sidebar-collapsed {
+  margin-left: 70px;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .dashboard-layout {
+    margin-left: 0;
+    padding: 1rem;
+  }
+}

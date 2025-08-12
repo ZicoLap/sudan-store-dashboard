@@ -1,9 +1,33 @@
+<div *ngIf="loading" class="loading-state">
+  <p>Loading...</p>
+</div>
 
+<div *ngIf="notFound" class="not-found-state">
+  <h2>Store not found</h2>
+  <button (click)="goBack()">Go Back</button>
+</div>
 
-<h1>{{ store?.name }}</h1>
-<p *ngIf="store?.description">{{ store?.description }}</p>
-
-
-<p *ngIf="loading">Loading...</p>
-<p *ngIf="notFound">Store not found</p>
-
+<div *ngIf="store && !loading && !notFound" class="dashboard-container">
+  <app-header 
+    [storeName]="store.name"
+    (toggleSidebar)="toggleSidebar()">
+  </app-header>
+  
+  <app-sidebar
+    [isCollapsed]="sidebarCollapsed"
+    [storeId]="store.id"
+    (menuItemClick)="onMenuItemClick($event)">
+  </app-sidebar>
+  
+  <!-- Main Content - wird jetzt flex: 1 -->
+  <div class="dashboard-layout" [ngClass]="{'sidebar-collapsed': sidebarCollapsed}">
+    <h2>Welcome to {{ store.name }}</h2>
+    <p>Dashboard content kommt hier...</p>
+    <!-- Placeholder content to test footer positioning -->
+    <div style="height: 200px; background: white; border-radius: 8px; padding: 2rem; margin-bottom: 2rem;">
+      <p>Content area - the footer should stay at bottom even with little content</p>
+    </div>
+  </div>
+  
+  <app-footer [sidebarCollapsed]="sidebarCollapsed"></app-footer>
+</div>

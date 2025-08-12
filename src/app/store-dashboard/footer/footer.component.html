@@ -1,0 +1,55 @@
+<!-- src/app/shared/footer/footer.component.html -->
+<footer class="footer" [ngClass]="{'sidebar-collapsed': sidebarCollapsed}">
+  
+  <div class="footer-content">
+    
+    <!-- Left Side - Branding & Copyright -->
+    <div class="footer-left">
+      <div class="footer-brand">
+        <span class="brand-name">Sudan Goods</span>
+        <span class="brand-tagline">Store Management Dashboard</span>
+      </div>
+      <div class="footer-copyright">
+        <span>&copy; {{ currentYear }} Sudan Goods. All rights reserved.</span>
+        <span class="version">{{ getVersion() }}</span>
+      </div>
+    </div>
+
+    <!-- Right Side - Links -->
+    <div class="footer-right">
+      <div class="footer-links">
+        <button 
+          *ngFor="let link of footerLinks"
+          class="footer-link"
+          [ngClass]="{'disabled': link.disabled}"
+          (click)="onLinkClick(link)"
+          [disabled]="link.disabled"
+          [title]="link.disabled ? 'Coming Soon' : link.label">
+          {{ link.label }}
+        </button>
+      </div>
+      
+      <div class="footer-social">
+        <span class="social-text">Made with ❤️ in Sudan</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Mobile Layout -->
+  <div class="footer-mobile">
+    <div class="mobile-brand">
+      <span class="brand-name">Sudan Goods</span>
+      <span class="version">{{ getVersion() }}</span>
+    </div>
+    
+    <div class="mobile-copyright">
+      &copy; {{ currentYear }} Sudan Goods Dashboard
+    </div>
+    
+    <div class="mobile-tagline">
+      Made with ❤️ in Sudan
+    </div>
+  </div>
+
+</footer>

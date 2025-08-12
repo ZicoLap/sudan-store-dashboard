@@ -1,0 +1,91 @@
+<!-- src/app/shared/header/header.component.html -->
+<header class="header">
+  <div class="header-left">
+    <!-- Sidebar Toggle Button -->
+    <button 
+      class="sidebar-toggle-btn" 
+      (click)="onToggleSidebar()"
+      aria-label="Toggle Sidebar">
+      <span class="material-icons">menu</span>
+    </button>
+    
+    <!-- Store Name -->
+    <h1 class="store-name">{{ storeName || 'Sudan Goods Store' }}</h1>
+  </div>
+
+  <div class="header-right">
+    <!-- Change Store Button -->
+    <button 
+      class="change-store-btn" 
+      (click)="changeStore()"
+      aria-label="Change Store">
+      <span class="material-icons">store</span>
+      <span class="btn-text">Change Store</span>
+    </button>
+
+    <!-- User Menu -->
+    <div class="user-menu-container">
+      <button 
+        class="user-menu-btn" 
+        (click)="toggleUserMenu()"
+        [class.active]="isUserMenuOpen"
+        aria-label="User Menu">
+        
+        <!-- User Avatar -->
+        <div class="user-avatar">
+          {{ getUserDisplayName().charAt(0).toUpperCase() }}
+        </div>
+        
+        <!-- User Info -->
+        <div class="user-info">
+          <span class="user-name">{{ getUserDisplayName() }}</span>
+        </div>
+        
+        <!-- Dropdown Arrow -->
+        <span class="material-icons dropdown-arrow">
+          {{ isUserMenuOpen ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}
+        </span>
+      </button>
+
+      <!-- User Dropdown Menu -->
+      <div 
+        class="user-dropdown" 
+        *ngIf="isUserMenuOpen"
+        (clickOutside)="closeUserMenu()">
+        
+        <div class="dropdown-header">
+          <div class="dropdown-user-info">
+            <div class="dropdown-avatar">
+              {{ getUserDisplayName().charAt(0).toUpperCase() }}
+            </div>
+            <div>
+              <div class="dropdown-name">{{ getUserDisplayName() }}</div>
+              <div class="dropdown-email">{{ getUserEmail() }}</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="dropdown-divider"></div>
+        
+        <div class="dropdown-items">
+          <button class="dropdown-item" disabled>
+            <span class="material-icons">person</span>
+            <span>Profile (Coming Soon)</span>
+          </button>
+          
+          <button class="dropdown-item" disabled>
+            <span class="material-icons">settings</span>
+            <span>Settings (Coming Soon)</span>
+          </button>
+          
+          <div class="dropdown-divider"></div>
+          
+          <button class="dropdown-item logout-item" (click)="onLogout()">
+            <span class="material-icons">logout</span>
+            <span>Logout</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>

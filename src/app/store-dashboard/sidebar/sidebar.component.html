@@ -1,0 +1,70 @@
+<!-- src/app/shared/sidebar/sidebar.component.html -->
+<aside class="sidebar" [ngClass]="{'collapsed': isCollapsed}">
+  
+  <!-- User Profile Section -->
+  <div class="sidebar-header">
+    <div class="user-profile">
+      <div class="user-avatar">
+        {{ getUserInitials() }}
+      </div>
+      <div class="user-info" *ngIf="!isCollapsed">
+        <div class="user-name">{{ getUserDisplayName() }}</div>
+        <div class="user-email">{{ getUserEmail() }}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation Menu -->
+  <nav class="sidebar-nav">
+    <div class="nav-section">
+      <div class="nav-title" *ngIf="!isCollapsed">Navigation</div>
+      
+      <ul class="nav-list">
+        <li 
+          *ngFor="let item of menuItems" 
+          class="nav-item"
+          [ngClass]="{
+            'active': activeRoute === item.id,
+            'disabled': item.disabled
+          }">
+          
+          <button 
+            class="nav-button"
+            (click)="onMenuItemClick(item)"
+            [disabled]="item.disabled"
+            [title]="isCollapsed ? item.label : ''"
+            [attr.aria-label]="item.label">
+            
+            <span class="nav-icon material-icons">{{ item.icon }}</span>
+            <span class="nav-label" *ngIf="!isCollapsed">{{ item.label }}</span>
+            
+            <!-- Active indicator -->
+            <div class="active-indicator" *ngIf="activeRoute === item.id"></div>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Sidebar Footer -->
+  <div class="sidebar-footer">
+    <button 
+      class="logout-button"
+      (click)="onLogout()"
+      [title]="isCollapsed ? 'Logout' : ''"
+      aria-label="Logout">
+      
+      <span class="nav-icon material-icons">logout</span>
+      <span class="nav-label" *ngIf="!isCollapsed">Logout</span>
+    </button>
+  </div>
+
+</aside>
+
+<!-- Mobile Overlay (for when sidebar is open on mobile) -->
+<div 
+  class="sidebar-overlay" 
+  *ngIf="!isCollapsed" 
+  (click)="onMenuItemClick({id: 'close', label: '', icon: '', route: ''})"
+  [ngClass]="{'show': !isCollapsed}">
+</div>
