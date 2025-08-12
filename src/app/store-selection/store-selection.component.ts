@@ -33,9 +33,9 @@ throw new Error('Method not implemented.');
   ngOnInit() {
     this.storeService.getUserStores().subscribe({
       next: (stores) => {
-        const storecopy = [stores[0], stores[1], stores[2]];
+        
         console.log('User stores:', stores);
-        this.stores.set(storecopy);
+        this.stores.set(stores);
       },
       error: (err) => console.error('Error fetching user stores:', err),
     });
