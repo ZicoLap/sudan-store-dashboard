@@ -6,6 +6,7 @@ import { StoreDashboardComponent } from './store-dashboard/store-dashboard.compo
 import { DashboardOverviewComponent } from './store-dashboard/dashboard-overview/dashboard-overview.component';
 import { ProductsListComponent } from './store-dashboard/products-list/products-list.component';
 import { StoreGuard } from './guards/store.guard';
+import { OrdersListComponent } from './store-dashboard/orders/orders-list/orders-list.component';
 
 
 export const routes: Routes = [
@@ -43,7 +44,8 @@ export const routes: Routes = [
       },
       { 
         path: 'orders', 
-        loadComponent: () => import('./store-dashboard/orders/orders-list/orders-list.component').then(m => m.OrdersListComponent)
+        /* loadComponent: () => import('./store-dashboard/orders/orders-list/orders-list.component').then(m => m.OrdersListComponent) */
+        component: OrdersListComponent
       },
     ],
   },

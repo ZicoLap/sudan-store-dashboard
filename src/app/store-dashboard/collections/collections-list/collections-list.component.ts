@@ -20,6 +20,7 @@ import { Collection } from '../../../models/collection.models';
 import { CollectionCardComponent } from '../collection-card/collection-card.component';
 import { CollectionFormDialogComponent } from '../collection-form-dialog/collection-form-dialog.component';
 import { CollectionsService } from '../../collections.service';
+import { OrdersService } from '../../orders.service';
 
 @Component({
   selector: 'app-collections-list',
@@ -54,6 +55,7 @@ export class CollectionsListComponent implements OnInit, OnDestroy {
   private route = inject(ActivatedRoute);
   private dialog = inject(MatDialog);
   private snackBar = inject(MatSnackBar);
+  private ordersService = inject(OrdersService);
   
   // Collections will be loaded from Firebase
 
@@ -68,6 +70,9 @@ export class CollectionsListComponent implements OnInit, OnDestroy {
           this.showError('No store ID found in URL');
           return of([]);
         }
+        console.log('Store ID:', this.storeId);
+        const orders = this.ordersService.getOrders(this.storeId);
+        console.log('Orders:', orders);
         return this.loadCollections();
       })
     ).subscribe();

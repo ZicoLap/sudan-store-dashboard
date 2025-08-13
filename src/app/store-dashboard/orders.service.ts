@@ -283,18 +283,37 @@ export class OrdersService {
     return counts$.length > 0 ? combineLatest(counts$) : of([]);
   }
 
+  /**
+   * Get count of orders for a store, optionally filtered by status
+   */
+  private async getOrderCount(storeId: string, status?: OrderStatus): Promise<number> {
+    try {
+      let q = query(
+        collection(this.firestore, this.ORDERS_COLLECTION),
+        where('storeId', '==', storeId)
+      );
+
+      if (status) {
+        q = query(q, where('status', '==', status));
+      }
+
+      const snapshot = await getCountFromServer(q);
+      return snapshot.data().count;
+    } catch (error) {
+      console.error('Error getting order count:', error);
+      // Fallback to 0 if count fails
+      return 0;
+    }
+  }
+
   private getOrderCountByStatus(storeId: string, status: OrderStatus): Observable<number> {
-    const q = query(
-      collection(this.firestore, this.ORDERS_COLLECTION),
-      where('storeId', '==', storeId),
-      where('status', '==', status)
-    );
-    
     return new Observable(subscriber => {
-      getCountFromServer(q).then(snapshot => {
-        subscriber.next(snapshot.data().count);
-        subscriber.complete();
-      }).catch(error => {
+      this.getOrderCount(storeId, status)
+        .then(count => {
+          subscriber.next(count);
+          subscriber.complete();
+        })
+        .catch(error => {
         subscriber.error(error);
       });
     });
@@ -303,7 +322,7 @@ export class OrdersService {
   /**
    * Search orders by query string (searches in order ID, customer name, and phone)
    */
-  searchOrders(storeId: string, queryStr: string, status?: OrderStatus): Observable<{orders: Order[], total: number, lastVisible: QueryDocumentSnapshot<DocumentData> | null}> {
+/*   searchOrders(storeId: string, queryStr: string, status?: OrderStatus): Observable<{orders: Order[], total: number, lastVisible: QueryDocumentSnapshot<DocumentData> | null}> {
     // This is a simplified search that would work for small datasets
     // For production, consider using Algolia or similar for better search capabilities
     let q = query(
@@ -343,5 +362,62 @@ export class OrdersService {
         subscriber.error(error);
       });
     });
-  }
+  } */
+
+    searchOrders(storeId: string, queryStr: string, status?: OrderStatus): Observable<{orders: Order[], total: number, lastVisible: QueryDocumentSnapshot<DocumentData> | null}> {
+        // This is a simplified search that would work for small datasets
+        // For production, consider using Algolia or similar for better search capabilities
+        let q = query(
+          collection(this.firestore, this.ORDERS_COLLECTION),
+          where('storeId', '==', storeId),
+          orderBy('createdAt', 'desc'),
+          limit(50)
+        );
+      
+        if (status) {
+          q = query(q, where('status', '==', status));
+        }
+      
+        return new Observable(subscriber => {
+          getDocs(q).then(querySnapshot => {
+            const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1] || null;
+            const orders = querySnapshot.docs.map(doc => {
+              const data = doc.data();
+              return {
+                id: doc.id,
+                ...data
+              } as Order;
+            });
+            
+            // Filter the results based on the search term
+            const searchStr = queryStr.toLowerCase();
+            const filteredOrders = orders.filter(order => {
+              const orderData = order as any;
+              return (
+                (orderData.id?.toLowerCase().includes(searchStr) ||
+                orderData.customer?.name?.toLowerCase().includes(searchStr) ||
+                orderData.customer?.phone?.includes(queryStr) ||
+                orderData.orderNumber?.toLowerCase().includes(searchStr)) ?? false
+              );
+            });
+            
+            console.log('Search results:', {
+              query: queryStr,
+              totalOrders: orders.length,
+              filteredOrders: filteredOrders.length,
+              firstFewOrders: filteredOrders.slice(0, 3)
+            });
+            
+            subscriber.next({
+              orders: filteredOrders,
+              total: filteredOrders.length,
+              lastVisible
+            });
+            subscriber.complete();
+          }).catch(error => {
+            console.error('Error in searchOrders:', error);
+            subscriber.error(error);
+          });
+        });
+      }
 }

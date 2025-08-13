@@ -125,6 +125,8 @@ export class OrdersListComponent implements OnInit, OnDestroy, AfterViewInit {
       startDate: this.startDate,
       endDate: this.endDate
     });
+
+    console.log('OrdersListComponent constructor called');
   }
 
 
@@ -181,26 +183,29 @@ export class OrdersListComponent implements OnInit, OnDestroy, AfterViewInit {
   total = 0;
   lastVisible: QueryDocumentSnapshot<DocumentData> | null = null;
 
+
+  
+
   async testFirestoreConnection() {
     try {
       console.log('Testing Firestore connection from component...');
       await this.ordersService.testFirestoreConnection();
-      
+
       // If we get here, the connection is working
       console.log('Firestore connection test successful!');
-      
+
       // Now try to get order counts to see if we can query the collection
       console.log('Testing order counts...');
       const storeId = this.route.snapshot.paramMap.get('storeId');
       if (storeId) {
         const counts = await this.ordersService.getOrderCounts(storeId).toPromise();
         console.log('Order counts:', counts);
-        
+
         // If we have counts, log the total
         if (counts && counts.length > 0) {
           const totalOrders = counts.reduce((sum, item) => sum + (item?.count || 0), 0);
           console.log(`Total orders in database: ${totalOrders}`);
-          
+
           if (totalOrders === 0) {
             console.warn('No orders found in the database. This might be expected if no orders have been placed yet.');
           }
@@ -215,16 +220,31 @@ export class OrdersListComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   async ngOnInit() {
+    console.log('🚀 ngOnInit() - Starting component initialization');
     try {
-      // Get the store ID from the route
-      this.storeId = this.route.snapshot.paramMap.get('storeId') || '';
-
+      console.log('🔍 Checking storeId...');
+      
+      // Get the store ID from the route, handling potential null values
+      const routeStoreId = this.route.snapshot.paramMap.get('storeId');
+      console.log('📌 Store ID from route params:', routeStoreId);
+      
+      // If not in params, try parent params
+      const parentStoreId = this.route.parent?.snapshot.paramMap.get('storeId');
+      console.log('🔍 Store ID from parent route params:', parentStoreId);
+      
+      // Set storeId with a type-safe approach
+      this.storeId = routeStoreId || parentStoreId || '';
+      
       if (!this.storeId) {
-        this.error = 'No store ID found in route';
+        const errorMsg = '❌ No store ID found in route';
+        console.error(errorMsg);
+        this.error = errorMsg;
         this.loading = false;
         this.cdr.detectChanges();
         return;
       }
+      
+      console.log('✅ Using storeId:', this.storeId);
 
       // First, test the Firestore connection
       console.log('Initializing component, testing Firestore connection...');
@@ -242,7 +262,7 @@ export class OrdersListComponent implements OnInit, OnDestroy, AfterViewInit {
       // Load initial data
       console.log('Loading initial orders...');
       await this.loadOrders();
-      
+
       // Load order counts for the tabs
       this.loadOrderCounts();
     } catch (error) {
@@ -255,20 +275,20 @@ export class OrdersListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngAfterViewInit(): void {
     console.log('ngAfterViewInit called');
-    
+
     // Ensure the component is still active
     if (this.destroy$.isStopped) {
       console.log('Component is being destroyed, skipping paginator setup');
       return;
     }
-    
+
     // Handle pagination changes
     if (this.paginator) {
       console.log('Setting up paginator subscription');
-      
+
       // Unsubscribe from any existing subscriptions to prevent memory leaks
       this.destroy$.next();
-      
+
       this.paginator.page
         .pipe(
           takeUntil(this.destroy$)
@@ -288,7 +308,7 @@ export class OrdersListComponent implements OnInit, OnDestroy, AfterViewInit {
     } else {
       console.warn('Paginator not found in the view');
     }
-    
+
     // Force a change detection cycle to ensure the view is updated
     this.cdr.detectChanges();
   }
@@ -319,7 +339,7 @@ export class OrdersListComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       });
   }
- 
+
 
   private setupFilters(): void {
     // Combine all filter changes
@@ -341,7 +361,7 @@ export class OrdersListComponent implements OnInit, OnDestroy, AfterViewInit {
   private convertToTableItem(order: Order): OrderTableItem {
     console.log('\n--- Converting order to table item ---');
     console.log('Original order:', order);
-    
+
     // Ensure all required fields have default values
     const orderId = order.id || '';
     const orderNumber = (order as any).orderNumber || `#${orderId.substring(0, 8) || 'N/A'}`;
@@ -349,7 +369,7 @@ export class OrdersListComponent implements OnInit, OnDestroy, AfterViewInit {
     const items = (order as any).items || [];
     const total = (order as any).total || 0;
     const status = ((order as any).status as OrderStatus) || 'pending';
-    
+
     // Log the extracted values
     console.log('Extracted values:', {
       orderId,
@@ -378,7 +398,7 @@ export class OrdersListComponent implements OnInit, OnDestroy, AfterViewInit {
       createdAt: (order as any).createdAt || new Date(),
       updatedAt: (order as any).updatedAt || new Date()
     };
-    
+
     console.log('Converted table item:', tableItem);
     return tableItem;
   }
@@ -388,20 +408,20 @@ export class OrdersListComponent implements OnInit, OnDestroy, AfterViewInit {
     console.log('\n--- loadOrders called ---');
     console.log('storeId:', this.storeId);
     console.log('loading state:', this.loading);
-    
+
     // Initialize orders as empty array if undefined
     if (!this.orders) {
       this.orders = [];
     }
-    
+
     console.log('current orders length:', this.orders.length);
-    
+
     // Reset loading state
     this.loading = true;
     this.error = null;
     this.orders = []; // Clear current orders
     this.cdr.detectChanges();
-    
+
     if (!this.storeId) {
       const errorMsg = 'No store ID available';
       console.error('Error:', errorMsg);
@@ -415,31 +435,31 @@ export class OrdersListComponent implements OnInit, OnDestroy, AfterViewInit {
 
     const status = this.statusFilter.value === 'all' ? undefined : this.statusFilter.value as OrderStatus;
     const searchTerm = this.searchControl.value || '';
-    
+
     console.log('Using filters - status:', status, 'searchTerm:', searchTerm);
     console.log('Page:', this.pageIndex + 1, 'Page size:', this.pageSize);
     console.log('Last visible doc exists:', !!this.lastVisible);
 
     try {
       console.log('Determining which service method to use...');
-      
+
       // Add a small delay to ensure UI updates are shown
       await new Promise(resolve => setTimeout(resolve, 100));
-      
+
       // Determine which service method to use based on whether we're searching
       const orders$ = searchTerm
         ? this.ordersService.searchOrders(this.storeId, searchTerm, status)
         : this.ordersService.getOrders(
-            this.storeId, 
-            status, 
-            this.pageIndex > 0 && this.lastVisible ? this.lastVisible : undefined
-          );
+          this.storeId,
+          status,
+          this.pageIndex > 0 && this.lastVisible ? this.lastVisible : undefined
+        );
 
       console.log('Subscribing to orders observable...');
-      
+
       // Unsubscribe from any existing subscriptions
       this.destroy$.next();
-      
+
       // Create a promise to handle the observable
       return new Promise<void>((resolve) => {
         const subscription = orders$.pipe(
@@ -451,25 +471,34 @@ export class OrdersListComponent implements OnInit, OnDestroy, AfterViewInit {
             console.log('Orders count:', result.orders?.length);
             console.log('Total count:', result.total);
             console.log('Has lastVisible:', !!result.lastVisible);
-            
+
             // Update pagination state
             if (result.lastVisible) {
               this.lastVisible = result.lastVisible;
               console.log('Updated lastVisible document');
             }
-            
+
             // Convert orders to table items
             const tableItems = (result.orders || []).map(order => this.convertToTableItem(order));
             console.log('Converted table items:', tableItems);
-            
+
             // Update component state
             this.orders = tableItems;
             this.total = result.total || 0;
-            
+
             console.log('Final orders array:', this.orders);
             console.log('Total orders:', this.total);
             console.log('Last visible:', this.lastVisible);
-            
+
+            // Inside the loadOrders method, add this after the orders$ is defined
+            console.log('Orders observable created with params:', {
+              storeId: this.storeId,
+              status: status || 'all',
+              searchTerm: searchTerm || 'none',
+              page: this.pageIndex + 1,
+              pageSize: this.pageSize
+            });
+
             this.loading = false;
             console.log('Loading complete. Orders loaded:', this.orders.length);
             this.cdr.detectChanges();
@@ -480,7 +509,7 @@ export class OrdersListComponent implements OnInit, OnDestroy, AfterViewInit {
             console.error('Error details:', error);
             console.error('Error message:', error.message);
             console.error('Error stack:', error.stack);
-            
+
             this.error = 'Failed to load orders. Please try again.';
             this.loading = false;
             this.cdr.detectChanges();
@@ -490,16 +519,18 @@ export class OrdersListComponent implements OnInit, OnDestroy, AfterViewInit {
             console.log('Orders subscription completed');
           }
         });
-        
+
         // Add subscription to destroy$ to ensure cleanup
         this.destroy$.subscribe(() => {
           subscription.unsubscribe();
         });
       });
+
+
     } catch (error) {
       console.error('\n--- Exception in loadOrders ---');
       console.error('Error:', error);
-      
+
       this.error = 'An error occurred while loading orders.';
       this.loading = false;
       this.cdr.detectChanges();
@@ -512,10 +543,10 @@ export class OrdersListComponent implements OnInit, OnDestroy, AfterViewInit {
     console.log('Previous page index:', event.previousPageIndex);
     console.log('New page index:', event.pageIndex);
     console.log('Page size:', event.pageSize);
-    
+
     const previousPageSize = this.pageSize;
     this.pageSize = event.pageSize;
-    
+
     // If page size changes, reset to first page and clear pagination state
     if (event.previousPageIndex !== undefined && event.pageSize !== previousPageSize) {
       console.log('Page size changed, resetting to first page');
@@ -524,9 +555,9 @@ export class OrdersListComponent implements OnInit, OnDestroy, AfterViewInit {
     } else {
       this.pageIndex = event.pageIndex;
     }
-    
+
     console.log('Loading page', this.pageIndex + 1, 'with', this.pageSize, 'items per page');
-    
+
     // Reload orders with new pagination
     this.loadOrders();
   }
