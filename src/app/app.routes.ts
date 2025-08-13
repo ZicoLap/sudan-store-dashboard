@@ -37,6 +37,14 @@ export const routes: Routes = [
         path: 'products', 
         component: ProductsListComponent 
       },
+      { 
+        path: 'collections', 
+        loadComponent: () => import('./store-dashboard/collections/collections-list/collections-list.component').then(m => m.CollectionsListComponent)
+      },
+      { 
+        path: 'orders', 
+        loadComponent: () => import('./store-dashboard/orders/orders-list/orders-list.component').then(m => m.OrdersListComponent)
+      },
     ],
   },
   { 

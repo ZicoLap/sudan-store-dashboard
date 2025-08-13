@@ -50,7 +50,7 @@ export class SidebarComponent {
     {
       id: 'collections',
       label: 'Collections',
-      icon: 'folder',
+      icon: 'collections',
       route: 'collections'
     },
     {

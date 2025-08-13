@@ -1,0 +1,229 @@
+/* Main container */
+.orders-container {
+  padding: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Header section */
+.orders-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.orders-header h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+/* Filters section */
+.filters-container {
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  padding: 16px;
+  margin-bottom: 24px;
+}
+
+.filters-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.filter-row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.search-field {
+  flex: 1;
+  min-width: 250px;
+}
+
+.status-filter {
+  min-width: 200px;
+}
+
+.date-range {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.date-picker {
+  width: 180px;
+}
+
+/* Table styles */
+.table-container {
+  overflow-x: auto;
+  margin-bottom: 24px;
+}
+
+.orders-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.orders-table th {
+  text-align: left;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 14px;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.orders-table td {
+  padding: 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  vertical-align: middle;
+}
+
+/* Status badges */
+.status-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.status-pending {
+  background-color: #fff3e0;
+  color: #e65100;
+}
+
+.status-confirmed {
+  background-color: #e3f2fd;
+  color: #1565c0;
+}
+
+.status-preparing {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.status-ready {
+  background-color: #e1f5fe;
+  color: #0277bd;
+}
+
+.status-delivered {
+  background-color: #e8f5e9;
+  color: #1b5e20;
+}
+
+.status-cancelled {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+/* Customer cell */
+.customer-cell {
+  display: flex;
+  flex-direction: column;
+}
+
+.customer-name {
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+.customer-email {
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+/* Items count */
+.items-count {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.item-icon {
+  color: rgba(0, 0, 0, 0.54);
+  font-size: 18px;
+  height: 18px;
+  width: 18px;
+}
+
+/* Total amount */
+.total-amount {
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+/* Action buttons */
+.actions-header {
+  text-align: right;
+}
+
+/* Empty state */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.empty-icon {
+  font-size: 48px;
+  height: 48px;
+  width: 48px;
+  margin-bottom: 16px;
+  color: rgba(0, 0, 0, 0.38);
+}
+
+/* Loading state */
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 64px 0;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+/* Highlight new orders */
+.highlight-row {
+  background-color: #f5f5f5;
+}
+
+/* Responsive adjustments */
+@media (max-width: 959px) {
+  .orders-container {
+    padding: 16px;
+  }
+  
+  .filter-row {
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .search-field,
+  .status-filter,
+  .date-picker {
+    width: 100%;
+  }
+  
+  .date-range {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .date-range button {
+    align-self: flex-end;
+  }
+}

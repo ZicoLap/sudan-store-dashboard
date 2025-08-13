@@ -1,0 +1,62 @@
+<div class="collections-container">
+  <header class="collections-header">
+    <h1>Collections</h1>
+    <button class="add-collection-btn" (click)="openAddCollectionDialog()">
+      <span class="button-icon">+</span>
+      <span>Add Collection</span>
+    </button>
+  </header>
+
+  <div class="search-filters">
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>Search Collections</mat-label>
+      <input 
+        matInput 
+        [formControl]="searchControl" 
+        placeholder="Search by name"
+        aria-label="Search collections"
+      >
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+  </div>
+
+  <div class="collections-content">
+    <ng-container *ngIf="loading; else content">
+      <div class="loading-state">
+        <mat-spinner diameter="40"></mat-spinner>
+        <p>Loading collections...</p>
+      </div>
+    </ng-container>
+
+    <ng-template #content>
+      <ng-container *ngIf="filteredCollections$ | async as collections; else noCollections">
+        <div class="collections-grid">
+          <app-collection-card 
+            *ngFor="let collection of collections; trackBy: trackByCollectionId"
+            [collection]="collection"
+            (edit)="onEditCollection($event)"
+            (delete)="onDeleteCollection($event)"
+            class="collection-item"
+          ></app-collection-card>
+        </div>
+      </ng-container>
+
+      <ng-template #noCollections>
+        <div class="no-collections">
+          <mat-icon class="empty-icon">collections</mat-icon>
+          <h3>No Collections Found</h3>
+          <p>Create your first collection to organize your products</p>
+          <button 
+            mat-raised-button 
+            color="primary" 
+            (click)="openAddCollectionDialog()"
+            class="create-button"
+          >
+            <mat-icon>add</mat-icon>
+            Create Collection
+          </button>
+        </div>
+      </ng-template>
+    </ng-template>
+  </div>
+</div>

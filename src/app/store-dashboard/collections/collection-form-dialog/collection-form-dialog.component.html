@@ -1,0 +1,86 @@
+<h2 mat-dialog-title>
+  {{ isEdit ? 'Edit Collection' : 'Add New Collection' }}
+</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="collectionForm" (ngSubmit)="onSubmit()" class="collection-form">
+    <div class="form-field">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Collection Name</mat-label>
+        <input 
+          matInput 
+          formControlName="name" 
+          placeholder="Enter collection name"
+          autocomplete="off"
+          required
+        >
+        <mat-error *ngIf="collectionForm.get('name')?.hasError('required')">
+          Collection name is required
+        </mat-error>
+        <mat-error *ngIf="collectionForm.get('name')?.hasError('maxlength')">
+          Name must be less than 100 characters
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-field">
+      <label class="upload-label">Collection Image</label>
+      <div class="image-upload-container" [class.has-image]="previewUrl">
+        <div class="image-preview" *ngIf="previewUrl">
+          <img [src]="previewUrl" alt="Collection preview">
+          <button 
+            type="button" 
+            mat-icon-button 
+            class="remove-image-btn"
+            (click)="removeImage()"
+            aria-label="Remove image"
+          >
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+        
+        <div class="upload-area" *ngIf="!previewUrl">
+          <input 
+            type="file" 
+            id="image-upload" 
+            accept="image/*" 
+            (change)="onFileSelected($event)"
+            style="display: none;"
+            #fileInput
+          >
+          <button 
+            type="button" 
+            mat-stroked-button 
+            class="upload-button"
+            (click)="fileInput.click()"
+          >
+            <mat-icon>upload</mat-icon>
+            <span>Upload Image</span>
+          </button>
+          <p class="hint">JPG, PNG or WebP. Max 5MB.</p>
+        </div>
+      </div>
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button 
+    mat-button 
+    type="button" 
+    [disabled]="isSubmitting"
+    (click)="onCancel()"
+  >
+    Cancel
+  </button>
+  <button 
+    mat-flat-button 
+    color="primary" 
+    type="button"
+    [disabled]="collectionForm.invalid || isSubmitting"
+    (click)="onSubmit()"
+  >
+    <span *ngIf="!isSubmitting">{{ isEdit ? 'Update' : 'Create' }}</span>
+    <mat-spinner *ngIf="isSubmitting" diameter="20"></mat-spinner>
+  </button>
+</mat-dialog-actions>
