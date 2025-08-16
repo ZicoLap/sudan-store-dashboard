@@ -5,15 +5,20 @@ import { MatInputModule } from "@angular/material/input";
 import { CommonModule } from '@angular/common';
 import { StoreSettingsService } from '../../services/store-settings.service';
 import { Store } from '../../store/store.model';
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { MatIconModule } from "@angular/material/icon";
 
 @Component({
   selector: 'app-store-settings',
   standalone: true,
   templateUrl: './store-settings.component.html',
   styleUrls: ['./store-settings.component.css'],
-  imports: [CommonModule, MatCard, MatCardModule, MatInputModule, ReactiveFormsModule]
+  imports: [CommonModule, MatCard, MatCardModule, MatInputModule, ReactiveFormsModule, MatProgressSpinnerModule, MatIconModule]
 })
 export class StoreSettingsComponent implements OnInit {
+resetForm() {
+throw new Error('Method not implemented.');
+}
   storeForm!: FormGroup;
   loading = false;
   coverPreview: string | null = null;
@@ -162,5 +167,9 @@ export class StoreSettingsComponent implements OnInit {
         console.error('Update failed:', err);
       }
     });
+  }
+
+  getCurrentDate(): Date {
+    return new Date();
   }
 }
