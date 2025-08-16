@@ -10,7 +10,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { Collection } from '../../../models/collection.models';
-import { CollectionsService } from '../../collections.service';
+import { CollectionsService } from '../../../services/collections.service';
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 /* import { CollectionsService } from '../collections.service';
  */

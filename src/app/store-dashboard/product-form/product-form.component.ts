@@ -12,7 +12,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Product } from '../../models/product.models';
-import { ProductService } from '../product.service';
+import { ProductService } from '../../services/product.service';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 

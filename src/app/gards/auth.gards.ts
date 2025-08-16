@@ -1,7 +1,7 @@
 // In src/app/gards/auth.gards.ts
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../services/auth.service';
 import { map, take } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 

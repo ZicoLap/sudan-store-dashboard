@@ -6,7 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import { LoginComponent } from "../login/login.component";
 import { collection, collectionData, Firestore } from '@angular/fire/firestore';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-landing-page',

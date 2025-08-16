@@ -1,7 +1,7 @@
 // src/app/shared/header/header.component.ts
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { NgIf } from '@angular/common';
-import { AuthService } from '../../auth.service';
+import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 
 @Component({

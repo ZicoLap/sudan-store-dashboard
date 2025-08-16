@@ -55,8 +55,12 @@ export const routes: Routes = [
           }
         ]
       },
+      {
+        path: 'settings',
+        loadComponent: () => import('./store-dashboard/store-settings/store-settings.component').then(m => m.StoreSettingsComponent)
+      }
     ],
-  },
+  },    
   { 
     path: '**', 
     redirectTo: '',

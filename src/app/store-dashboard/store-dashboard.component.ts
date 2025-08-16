@@ -3,7 +3,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { StoreService } from '../store/store.service';
 import { Store } from '../store/store.model';
 import { NgIf, NgClass } from '@angular/common';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../services/auth.service';
 import { HeaderComponent } from "./header/header.component";
 import { SidebarComponent } from "./sidebar/sidebar.component";
 import { FooterComponent } from "./footer/footer.component";

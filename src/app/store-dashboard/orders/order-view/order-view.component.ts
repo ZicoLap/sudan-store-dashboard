@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { OrdersService } from '../../orders.service';
+import { OrdersService } from '../../../services/orders.service';
 import { CommonModule, CurrencyPipe, DatePipe, SlicePipe, TitleCasePipe, UpperCasePipe } from '@angular/common';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, ActivatedRoute, Router, ParamMap } from '@angular/router';

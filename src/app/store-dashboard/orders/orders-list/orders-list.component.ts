@@ -12,7 +12,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { Router, ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Observable, Subject, takeUntil, catchError, of, filter, map } from 'rxjs';
 import { Order, OrderStatus, StrictOrder } from '../../../models/order.models';
-import { OrdersService } from '../../orders.service';
+import { OrdersService } from '../../../services/orders.service';
 
 // Extend the Order interface to include the Firestore Timestamp type
 type FirestoreTimestamp = {

@@ -1,8 +1,8 @@
 // src/app/shared/sidebar/sidebar.component.ts
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { NgFor, NgIf, NgClass } from '@angular/common';
-import { Router, NavigationEnd } from '@angular/router';
-import { AuthService } from '../../auth.service';
+import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 import { filter } from 'rxjs/operators';
 
 export interface MenuItem {
@@ -75,7 +75,8 @@ export class SidebarComponent {
 
   constructor(
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private route: ActivatedRoute
   ) {
     // Listen to route changes to update active route
     this.router.events
@@ -87,6 +88,9 @@ export class SidebarComponent {
 
   ngOnInit() {
     // Set initial active route
+    /* this.route.paramMap.subscribe(params => {
+      this.storeId = params.get('storeId');
+    }); */
     this.updateActiveRoute(this.router.url);
   }
 

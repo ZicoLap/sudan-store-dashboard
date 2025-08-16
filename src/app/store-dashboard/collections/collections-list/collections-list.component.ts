@@ -19,8 +19,8 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Collection } from '../../../models/collection.models';
 import { CollectionCardComponent } from '../collection-card/collection-card.component';
 import { CollectionFormDialogComponent } from '../collection-form-dialog/collection-form-dialog.component';
-import { CollectionsService } from '../../collections.service';
-import { OrdersService } from '../../orders.service';
+import { CollectionsService } from '../../../services/collections.service';
+import { OrdersService } from '../../../services/orders.service';
 
 @Component({
   selector: 'app-collections-list',

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { ProductService } from '../product.service';
+import { ProductService } from '../../services/product.service';
 import { Product } from '../../models/product.models';
 import { Observable, of } from 'rxjs';
 import { map, startWith, catchError } from 'rxjs/operators';

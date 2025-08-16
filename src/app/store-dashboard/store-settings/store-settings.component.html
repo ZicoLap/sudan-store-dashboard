@@ -1,0 +1,145 @@
+<form [formGroup]="storeForm" (ngSubmit)="onSubmit()">
+
+    <!-- Store Info -->
+    <mat-card>
+      <mat-card-title>Store Information</mat-card-title>
+      <mat-card-content>
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Store Name</mat-label>
+          <input matInput formControlName="name">
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Description</mat-label>
+          <textarea matInput formControlName="description"></textarea>
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email" type="email">
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Phone Number</mat-label>
+          <input matInput formControlName="phoneNumber">
+        </mat-form-field>
+      </mat-card-content>
+    </mat-card>
+  
+    <!-- Address -->
+    <mat-card>
+      <mat-card-title>Address</mat-card-title>
+      <mat-card-content formGroupName="address">
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Street</mat-label>
+          <input matInput formControlName="street">
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>City</mat-label>
+          <input matInput formControlName="city">
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Country</mat-label>
+          <input matInput formControlName="country">
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Postal Code</mat-label>
+          <input matInput formControlName="postalCode">
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Label</mat-label>
+          <input matInput formControlName="label">
+        </mat-form-field>
+      </mat-card-content>
+    </mat-card>
+  
+    <!-- Categories, Tags, Store Types -->
+    <mat-card>
+      <mat-card-title>Categories, Tags, Types</mat-card-title>
+      <mat-card-content>
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Category IDs (comma-separated)</mat-label>
+          <input matInput formControlName="categoryIds">
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Tags (comma-separated)</mat-label>
+          <input matInput formControlName="tags">
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Store Types (comma-separated)</mat-label>
+          <input matInput formControlName="storeTypes">
+        </mat-form-field>
+      </mat-card-content>
+    </mat-card>
+  
+    <!-- Cover & Logo Upload -->
+    <mat-card>
+      <mat-card-title>Images</mat-card-title>
+      <mat-card-content>
+        <div class="image-upload">
+          <img *ngIf="coverPreview" [src]="coverPreview" class="preview-image">
+          <button mat-button type="button" (click)="triggerFileInput('cover')">Upload Cover Image</button>
+          <input #coverUpload type="file" accept="image/*" (change)="onFileSelected($event, 'cover')" hidden>
+        </div>
+  
+        <div class="image-upload">
+          <img *ngIf="logoPreview" [src]="logoPreview" class="preview-image">
+          <button mat-button type="button" (click)="triggerFileInput('logo')">Upload Logo Image</button>
+          <input #logoUpload type="file" accept="image/*" (change)="onFileSelected($event, 'logo')" hidden>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  
+    <!-- Delivery Pricing -->
+    <mat-card>
+      <mat-card-title>Delivery Pricing</mat-card-title>
+      <mat-card-content formArrayName="deliveryPricing">
+        <div *ngFor="let item of deliveryPricing.controls; let i = index" [formGroupName]="i" class="delivery-item">
+          <mat-form-field appearance="outline">
+            <mat-label>Max Weight (kg)</mat-label>
+            <input matInput type="number" formControlName="maxWeight">
+          </mat-form-field>
+  
+          <mat-form-field appearance="outline">
+            <mat-label>Fee ($)</mat-label>
+            <input matInput type="number" formControlName="fee">
+          </mat-form-field>
+  
+          <button mat-mini-button color="warn" type="button" (click)="removeDeliveryPrice(i)">Remove</button>
+        </div>
+        <button mat-button color="primary" type="button" (click)="addDeliveryPrice()">Add Delivery Price</button>
+      </mat-card-content>
+    </mat-card>
+  
+    <!-- Free Delivery & Minimum Order -->
+    <mat-card>
+      <mat-card-title>Order Settings</mat-card-title>
+      <mat-card-content>
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Free Delivery Over ($)</mat-label>
+          <input matInput type="number" formControlName="freeDeliveryOver">
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Minimum Order Amount ($)</mat-label>
+          <input matInput type="number" formControlName="minimumOrderAmount">
+        </mat-form-field>
+  
+        <mat-checkbox formControlName="isOpen">Store Open</mat-checkbox>
+      </mat-card-content>
+    </mat-card>
+  
+    <!-- Save Button -->
+    <div class="form-actions">
+      <button mat-raised-button color="primary" type="submit" [disabled]="loading || storeForm.invalid">
+        Save
+      </button>
+    </div>
+  </form>
+  
