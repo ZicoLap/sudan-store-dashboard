@@ -397,17 +397,8 @@ export class OrderViewComponent implements OnInit, OnDestroy {
    * Determines if the status update button should be disabled
    */
   isStatusUpdateDisabled(): boolean {
-    if (this.loading || this.statusControl.invalid || this.statusControl.pristine) {
-      return true;
-    }
-
-    const newStatus = this.statusControl.value;
-    // If updating to 'ready' or 'delivered', ensure all items are checked
-    if ((newStatus === 'ready' || newStatus === 'delivered')) {
-      return true;
-    }
-
-    return false;
+    // Only disable if loading, control is invalid, or no changes made
+    return this.loading || this.statusControl.invalid || this.statusControl.pristine;
   }
 
   /**
