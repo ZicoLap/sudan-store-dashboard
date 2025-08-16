@@ -1,0 +1,333 @@
+<div class="order-view-container" role="main" aria-labelledby="order-heading">
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-container" aria-live="polite" aria-busy="true">
+    <mat-spinner diameter="40" aria-hidden="true"></mat-spinner>
+    <p id="loading-text">Loading order details...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="!loading && error" class="error-container" role="alert" aria-live="assertive">
+    <mat-icon aria-hidden="true">error_outline</mat-icon>
+    <h2>Error Loading Order</h2>
+    <p>{{ error }}</p>
+    <button mat-stroked-button color="primary" (click)="loadOrder(storeId, orderId)" class="mt-2" aria-label="Try loading order again">
+      <mat-icon aria-hidden="true">refresh</mat-icon>
+      <span>Try Again</span>
+    </button>
+  </div>
+
+  <!-- Order Details -->
+  <div *ngIf="!loading && !error && order" class="order-details">
+    <!-- Header -->
+    <div class="order-header">
+      <h1>Order #{{ order.id | slice:0:8 | uppercase }}</h1>
+      <div 
+        class="status-badge" 
+        [ngClass]="'status-' + order.status"
+        role="status"
+        [attr.aria-label]="'Order status: ' + (order.status | titlecase)"
+        tabindex="0"
+        #statusBadge
+        (keyup.enter)="statusBadge.click()"
+        (keyup.space)="statusBadge.click()">
+        <mat-icon aria-hidden="true">{{ getStatusIcon(order.status) }}</mat-icon>
+        <span>{{ order.status | titlecase }}</span>
+      </div>
+    </div>
+
+    <div class="order-content">
+      <!-- Left Column -->
+      <div class="left-column">
+        <!-- Order Summary -->
+        <mat-card class="order-section">
+          <mat-card-header>
+            <mat-card-title>Order Summary</mat-card-title>
+            <mat-card-subtitle>Placed on {{ order.createdAt | date:'medium' }}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <!-- Customer Info -->
+            <div class="info-row customer-info">
+              <mat-icon class="modern-icon">account_circle</mat-icon>
+              <div class="info-content">
+                <h3>Customer Information</h3>
+                <span class="customer-name">
+                  <mat-icon>person</mat-icon>
+                  {{ order.name }}
+                </span>
+                <div class="customer-phone">
+                  <mat-icon>phone_iphone</mat-icon>
+                  <span>{{ order.phone }}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Delivery Address -->
+            <div class="info-row address-info">
+              <mat-icon class="modern-icon">local_shipping</mat-icon>
+              <div class="info-content">
+                <div class="address-header">
+                  <h3>Delivery Address</h3>
+                  <span class="address-badge">
+                    <mat-icon>local_offer</mat-icon>
+                    Standard
+                  </span>
+                </div>
+                <p>
+                  <mat-icon>location_on</mat-icon>
+                  {{ order.address.street }}
+                </p>
+                <p>
+                  <mat-icon>location_city</mat-icon>
+                  {{ order.address.city }}, {{ order.address.postalCode }}
+                </p>
+                <p>
+                  <mat-icon>public</mat-icon>
+                  {{ order.address.country }}
+                </p>
+              </div>
+            </div>
+
+            <mat-divider *ngIf="order.orderNote"></mat-divider>
+
+            <div class="info-row" *ngIf="order.orderNote">
+              <mat-icon>note</mat-icon>
+              <div>
+                <h3>Order Notes</h3>
+                <p class="order-notes">{{ order.orderNote }}</p>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+        <!-- Order Items Table -->
+        <mat-card class="order-section">
+          <mat-card-header>
+            <mat-card-title>Order Items ({{ order.items.length }})</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="table-responsive">
+              <table class="order-items-table" mat-table [dataSource]="dataSource">
+                <!-- Product Column -->
+                <ng-container matColumnDef="product">
+                  <th mat-header-cell *matHeaderCellDef>Product</th>
+                  <td mat-cell *matCellDef="let item" class="product-cell">
+                    <div class="product-info">
+                      <img 
+                        [src]="item.imageUrl || 'assets/placeholder-product.png'"
+                        [alt]="item.name || 'Product image'"
+                        loading="lazy"
+                        (error)="onImageError($event)"
+                        class="product-image">
+                      <span class="product-name">{{ item.name }}</span>
+                    </div>
+                  </td>
+                </ng-container>
+
+                <!-- Weight Column -->
+                <ng-container matColumnDef="weight">
+                  <th mat-header-cell *matHeaderCellDef>Weight</th>
+                  <td mat-cell *matCellDef="let item" class="weight-cell">
+                    <div class="weight-info">
+                      <mat-icon>fitness_center</mat-icon>
+                      <span>{{ item.weight }}g</span>
+                    </div>
+                  </td>
+                </ng-container>
+
+                <!-- Price Column -->
+                <ng-container matColumnDef="price">
+                  <th mat-header-cell *matHeaderCellDef>Unit Price</th>
+                  <td mat-cell *matCellDef="let item" class="price-cell">
+                    {{ item.price | currency:'USD':'symbol':'1.2-2' }}
+                  </td>
+                </ng-container>
+
+                <!-- Quantity Column -->
+                <ng-container matColumnDef="quantity">
+                  <th mat-header-cell *matHeaderCellDef>Quantity</th>
+                  <td mat-cell *matCellDef="let item" class="quantity-cell">
+                    <div class="quantity-display">
+                      <span class="quantity-value">{{ item.quantity }}</span>
+                      <mat-icon>shopping_cart</mat-icon>
+                    </div>
+                  </td>
+                </ng-container>
+
+                <!-- Total Column -->
+                <ng-container matColumnDef="total">
+                  <th mat-header-cell *matHeaderCellDef>Total</th>
+                  <td mat-cell *matCellDef="let item" class="total-cell">
+                    <strong>{{ item.price * item.quantity | currency:'USD':'symbol':'1.2-2' }}</strong>
+                  </td>
+                </ng-container>
+
+                <!-- Header and Row Definitions -->
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <!-- Right Column -->
+      <div class="right-column">
+        <!-- Modern Order Summary Card -->
+        <mat-card class="order-summary-card">
+          <mat-card-header class="summary-header">
+            <mat-card-title>Order Summary</mat-card-title>
+            <button mat-icon-button matTooltip="Print invoice" (click)="onPrintInvoice()" class="print-button" aria-label="Print order summary">
+              <mat-icon>receipt</mat-icon>
+            </button>
+          </mat-card-header>
+          
+          <mat-divider></mat-divider>
+          
+          <mat-card-content class="summary-content">
+            <!-- Order Items Count -->
+            <div class="summary-item items-count">
+              <span>{{ order.items.length }} items</span>
+            </div>
+            
+            <!-- Order Totals -->
+            <div class="summary-item">
+              <span>Subtotal</span>
+              <span>{{ order.subtotal | currency:'USD':'symbol':'1.2-2' }}</span>
+            </div>
+            
+            <div class="summary-item delivery">
+              <span>Delivery Fee</span>
+              <span>{{ order.deliveryFee > 0 ? (order.deliveryFee | currency:'USD':'symbol':'1.2-2') : 'Free' }}</span>
+            </div>
+            
+            <mat-divider class="summary-divider"></mat-divider>
+            
+            <div class="summary-item total">
+              <span class="total-label">Total</span>
+              <span class="total-amount">{{ order.total | currency:'USD':'symbol':'1.2-2' }}</span>
+            </div>
+            
+            <!-- Payment Information -->
+            <div class="payment-info">
+              <div class="payment-method">
+                <div class="payment-icon">
+                  <mat-icon>credit_card</mat-icon>
+                </div>
+                <div class="payment-details">
+                  <h4>Payment Method</h4>
+                  <p class="method">
+                    {{ order.paymentMethod | titlecase }}
+                    <span class="payment-status" [ngClass]="'status-' + order.paymentStatus">
+                      {{ order.paymentStatus | titlecase }}
+                    </span>
+                  </p>
+                </div>
+              </div>
+              
+              <div class="order-date">
+                <mat-icon>event</mat-icon>
+                <span>Order placed on {{ order.createdAt | date:'mediumDate' }}</span>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+        <!-- Status Timeline -->
+        <mat-card class="order-section">
+          <mat-card-header>
+            <mat-card-title>Order Status</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="status-timeline">
+              <div *ngFor="let step of statusSteps" class="timeline-step" [ngClass]="{'completed': step.isCompleted, 'active': step.isCurrent}">
+                <div class="timeline-icon" [style.background-color]="step.color">
+                  <mat-icon>{{ step.icon }}</mat-icon>
+                </div>
+                <div class="timeline-content">
+                  <h4>{{ step.label }}</h4>
+                  <p *ngIf="step.isCompleted">Completed</p>
+                  <p *ngIf="step.isCurrent">In progress</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Status Update Section -->
+            <div class="status-update-section" *ngIf="['pending', 'confirmed', 'preparing', 'ready'].includes(order.status)">
+              <h3>Update Order Status</h3>
+              <p class="current-status">
+                <strong>Current Status:</strong> 
+                <span class="status-badge" [ngClass]="'status-' + order.status">
+                  {{ order.status | titlecase }}
+                </span>
+              </p>
+              
+              <div class="status-controls">
+                <mat-form-field appearance="outline" class="status-select">
+                  <mat-label>Select New Status</mat-label>
+                  <mat-select [formControl]="statusControl" [disabled]="loading">
+                    <mat-option *ngFor="let status of getNextStatuses()" [value]="status">
+                      <div class="status-option">
+                        <mat-icon class="status-icon">{{ getStatusIcon(status) }}</mat-icon>
+                        <span>{{ status | titlecase }}</span>
+                      </div>
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                
+                <button mat-raised-button 
+                        color="primary" 
+                        class="update-button" 
+                        (click)="onStatusUpdate()"
+                        [disabled]="isStatusUpdateDisabled()"
+                        [class.updating]="loading"
+                        [matTooltip]="getStatusUpdateTooltip()"
+                        matTooltipPosition="above">
+                  <mat-icon *ngIf="!loading">update</mat-icon>
+                  <mat-spinner *ngIf="loading" diameter="20"></mat-spinner>
+                  <span>{{ loading ? 'Updating...' : 'Update Status' }}</span>
+                </button>
+              </div>
+              
+              <p class="status-hint" *ngIf="getNextStatuses().length === 0">
+                This order has reached its final status and cannot be updated further.
+              </p>
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons" role="toolbar" aria-label="Order actions">
+  <button 
+    mat-stroked-button 
+    (click)="onPrintInvoice()" 
+    [disabled]="loading"
+    aria-label="Print invoice">
+    <mat-icon aria-hidden="true">print</mat-icon>
+    <span>Print Invoice</span>
+  </button>
+  
+  <button 
+    mat-stroked-button 
+    (click)="onResendConfirmation()" 
+    [disabled]="loading"
+    [attr.aria-busy]="loading"
+    aria-label="Resend order confirmation">
+    <mat-icon aria-hidden="true">email</mat-icon>
+    <span>Resend Confirmation</span>
+  </button>
+  
+  <button 
+    mat-stroked-button 
+    color="warn" 
+    (click)="onCancelOrder()" 
+    [disabled]="loading || order.status === 'cancelled' || order.status === 'delivered'"
+    [attr.aria-disabled]="order.status === 'cancelled' || order.status === 'delivered'"
+    [attr.aria-label]="order.status === 'cancelled' ? 'Order already cancelled' : 'Cancel this order'"
+    #cancelOrderBtn>
+    <mat-icon aria-hidden="true">cancel</mat-icon>
+    <span>{{ order.status === 'cancelled' ? 'Order Cancelled' : 'Cancel Order' }}</span>
+  </button>
+</div>
+      </div>
+    </div>
+  </div>

@@ -1,169 +1,100 @@
 <div class="orders-container">
-  <!-- Header Section -->
-  <div class="orders-header">
-    <h2>Orders</h2>
-    <button mat-raised-button color="primary" (click)="toggleFilters()">
-      <mat-icon>filter_list</mat-icon>
-      {{ showFilters ? 'Hide Filters' : 'Show Filters' }}
+  <!-- Header -->
+  <div class="header">
+    <h1>Orders</h1>
+    <button mat-flat-button color="primary" (click)="loadOrders()" [disabled]="loading">
+      <mat-icon>refresh</mat-icon>
+      Refresh
     </button>
   </div>
 
-  <!-- Filters Section -->
-  <div class="filters-container" *ngIf="showFilters">
-    <form [formGroup]="searchForm" (ngSubmit)="loadOrders()" class="filters-form">
-      <div class="filter-row">
-        <mat-form-field appearance="outline" class="search-field">
-          <mat-label>Search Orders</mat-label>
-          <input matInput formControlName="searchTerm" placeholder="Search by order #, customer, etc.">
-          <button matSuffix mat-icon-button type="button" *ngIf="searchControl.value" (click)="searchControl.setValue(''); loadOrders()">
-            <mat-icon>close</mat-icon>
-          </button>
-        </mat-form-field>
-
-        <mat-form-field appearance="outline" class="status-filter">
-          <mat-label>Status</mat-label>
-          <mat-select formControlName="status" (selectionChange)="loadOrders()">
-            <mat-option *ngFor="let tab of tabs" [value]="tab.id">
-              {{ tab.label }} ({{ tab.count }})
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-
-      <div class="date-range">
-        <mat-form-field appearance="outline" class="date-picker">
-          <mat-label>From</mat-label>
-          <input matInput [matDatepicker]="startPicker" formControlName="startDate">
-          <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
-          <mat-datepicker #startPicker></mat-datepicker>
-        </mat-form-field>
-
-        <mat-form-field appearance="outline" class="date-picker">
-          <mat-label>To</mat-label>
-          <input matInput [matDatepicker]="endPicker" formControlName="endDate" [min]="startDate.value">
-          <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
-          <mat-datepicker #endPicker></mat-datepicker>
-        </mat-form-field>
-
-        <button mat-button type="button" (click)="startDate.setValue(null); endDate.setValue(null); loadOrders()" 
-                [disabled]="!startDate.value && !endDate.value">
-          Clear Dates
-        </button>
-      </div>
-    </form>
+  <!-- Loading State -->
+  <div class="loading-state" *ngIf="loading">
+    <mat-spinner diameter="40"></mat-spinner>
+    <p>Loading orders...</p>
   </div>
 
-  <!-- Orders Table -->
-  <div class="table-container" *ngIf="!loading; else loadingState">
-    <table mat-table [dataSource]="orders" class="orders-table">
-      <!-- Order Number Column -->
-      <ng-container matColumnDef="orderNumber">
-        <th mat-header-cell *matHeaderCellDef>Order #</th>
-        <td mat-cell *matCellDef="let order">
-          <a (click)="viewOrder(order.id)" class="order-link">{{ order.orderNumber }}</a>
-        </td>
-      </ng-container>
-
-      <!-- Date Column -->
-      <ng-container matColumnDef="date">
-        <th mat-header-cell *matHeaderCellDef>Date</th>
-        <td mat-cell *matCellDef="let order">
-          {{ order.createdAt | date:'mediumDate' }}
-        </td>
-      </ng-container>
-
-      <!-- Customer Column -->
-      <ng-container matColumnDef="customer">
-        <th mat-header-cell *matHeaderCellDef>Customer</th>
-        <td mat-cell *matCellDef="let order">
-          <div class="customer-cell">
-            <div class="customer-name">{{ order.customerName || 'Guest' }}</div>
-            <div class="customer-email" *ngIf="order.customer?.email">{{ order.customer.email }}</div>
-          </div>
-        </td>
-      </ng-container>
-
-      <!-- Items Column -->
-      <ng-container matColumnDef="items">
-        <th mat-header-cell *matHeaderCellDef>Items</th>
-        <td mat-cell *matCellDef="let order">
-          <div class="items-count">
-            <mat-icon class="item-icon">shopping_basket</mat-icon>
-            {{ order.totalItems }} {{ order.totalItems === 1 ? 'item' : 'items' }}
-          </div>
-        </td>
-      </ng-container>
-
-      <!-- Total Column -->
-      <ng-container matColumnDef="total">
-        <th mat-header-cell *matHeaderCellDef>Total</th>
-        <td mat-cell *matCellDef="let order">
-          <div class="total-amount">{{ order.formattedTotal }}</div>
-        </td>
-      </ng-container>
-
-      <!-- Status Column -->
-      <ng-container matColumnDef="status">
-        <th mat-header-cell *matHeaderCellDef>Status</th>
-        <td mat-cell *matCellDef="let order">
-          <span class="status-badge" [ngClass]="'status-' + order.status">
-            {{ order.status | orderStatus }}
-          </span>
-        </td>
-      </ng-container>
-
-      <!-- Actions Column -->
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef class="actions-header">Actions</th>
-        <td mat-cell *matCellDef="let order">
-          <button mat-icon-button [matMenuTriggerFor]="orderMenu" aria-label="Order actions">
-            <mat-icon>more_vert</mat-icon>
-          </button>
-          <mat-menu #orderMenu="matMenu">
-            <button mat-menu-item (click)="viewOrder(order.id)">
-              <mat-icon>visibility</mat-icon>
-              <span>View Details</span>
-            </button>
-            <button mat-menu-item (click)="updateOrderStatus(order.id, 'preparing')" *ngIf="order.status === 'pending' || order.status === 'confirmed'">
-              <mat-icon>update</mat-icon>
-              <span>Mark as Preparing</span>
-            </button>
-            <button mat-menu-item (click)="updateOrderStatus(order.id, 'ready')" *ngIf="order.status === 'preparing'">
-              <mat-icon>local_shipping</mat-icon>
-              <span>Mark as Ready for Pickup</span>
-            </button>
-            <button mat-menu-item (click)="updateOrderStatus(order.id, 'delivered')" *ngIf="order.status === 'ready'">
-              <mat-icon>check_circle</mat-icon>
-              <span>Mark as Delivered</span>
-            </button>
-            <button mat-menu-item (click)="updateOrderStatus(order.id, 'cancelled')" *ngIf="order.status !== 'cancelled' && order.status !== 'delivered'">
-              <mat-icon>cancel</mat-icon>
-              <span>Cancel Order</span>
-            </button>
-          </mat-menu>
-        </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row 
-          *matRowDef="let row; columns: displayedColumns;"
-          [ngClass]="{'highlight-row': isOrderNew(row.createdAt)}">
-      </tr>
-    </table>
-
-    <!-- Empty State -->
-    <div class="empty-state" *ngIf="orders.length === 0">
-      <mat-icon class="empty-icon">receipt_long</mat-icon>
-      <h3>No orders found</h3>
-      <p *ngIf="hasActiveFilters()">
-        Try adjusting your filters or search term
-      </p>
-      <p *ngIf="!hasActiveFilters()">
-        No orders have been placed yet. Check back later!
-      </p>
-    </div>
+  <!-- Error State -->
+  <div class="error-state" *ngIf="error && !loading">
+    <mat-icon>error_outline</mat-icon>
+    <p>{{ error }}</p>
+    <button mat-stroked-button color="primary" (click)="loadOrders()">
+      <mat-icon>refresh</mat-icon>
+      Try Again
+    </button>
   </div>
 
+  <!-- Empty State -->
+  <div *ngIf="!loading && !error && dataSource.data.length === 0" class="empty-state">
+    <mat-icon>receipt</mat-icon>
+    <h3>No Orders Yet</h3>
+    <p>When you receive orders, they'll appear here.</p>
+  </div>
+
+  <!-- Orders Table with Virtual Scrolling -->
+  <div class="table-container" *ngIf="!loading && !error">
+    <cdk-virtual-scroll-viewport itemSize="60" class="orders-viewport">
+      <table mat-table [dataSource]="dataSource" class="orders-table">
+        <!-- Order Number Column -->
+        <ng-container matColumnDef="orderNumber">
+          <th mat-header-cell *matHeaderCellDef>Order #</th>
+          <td mat-cell *matCellDef="let order" class="order-number">
+            {{ order.orderNumber }}
+          </td>
+        </ng-container>
+
+        <!-- Date Column -->
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef>Date</th>
+          <td mat-cell *matCellDef="let order">
+            {{ order.createdAt | date:'medium' }}
+          </td>
+        </ng-container>
+
+        <!-- Customer Column -->
+        <ng-container matColumnDef="customerName">
+          <th mat-header-cell *matHeaderCellDef>Customer</th>
+          <td mat-cell *matCellDef="let order">
+            {{ order.customerName }}
+          </td>
+        </ng-container>
+
+        <!-- Items Count Column -->
+        <ng-container matColumnDef="totalItems">
+          <th mat-header-cell *matHeaderCellDef>Items</th>
+          <td mat-cell *matCellDef="let order">
+            {{ order.totalItems }} item{{ order.totalItems !== 1 ? 's' : '' }}
+          </td>
+        </ng-container>
+
+        <!-- Total Column -->
+        <ng-container matColumnDef="formattedTotal">
+          <th mat-header-cell *matHeaderCellDef>Total</th>
+          <td mat-cell *matCellDef="let order">
+            {{ order.formattedTotal }}
+          </td>
+        </ng-container>
+
+        <!-- Status Column -->
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>Status</th>
+          <td mat-cell *matCellDef="let order">
+            <mat-chip [ngClass]="'status-' + order.status">
+              {{ order.status | titlecase }}
+            </mat-chip>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr 
+          mat-row 
+          *matRowDef="let row; columns: displayedColumns; trackBy: trackByOrderId"
+          (click)="onOrderClick(row)"
+          class="clickable-row">
+        </tr>
+      </table>
+    </cdk-virtual-scroll-viewport>
+  </div>
   <!-- Loading State -->
   <ng-template #loadingState>
     <div class="loading-state">
@@ -172,15 +103,5 @@
     </div>
   </ng-template>
 
-  <!-- Pagination -->
-  <mat-paginator [length]="total"
-                 [pageSize]="pageSize"
-                 [pageIndex]="pageIndex"
-                 [pageSizeOptions]="[5, 10, 25, 50]"
-                 (page)="onPageChange($event)"
-                 [hidePageSize]="false"
-                 [showFirstLastButtons]="true"
-                 aria-label="Select page of orders"
-                 *ngIf="orders.length > 0">
-  </mat-paginator>
+  <!-- Pagination removed -->
 </div>

@@ -44,8 +44,16 @@ export const routes: Routes = [
       },
       { 
         path: 'orders', 
-        /* loadComponent: () => import('./store-dashboard/orders/orders-list/orders-list.component').then(m => m.OrdersListComponent) */
-        component: OrdersListComponent
+        children: [
+          {
+            path: '',
+            component: OrdersListComponent
+          },
+          {
+            path: ':orderId',
+            loadComponent: () => import('./store-dashboard/orders/order-view/order-view.component').then(m => m.OrderViewComponent)
+          }
+        ]
       },
     ],
   },
